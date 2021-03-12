@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.UrlRewriter;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -31,9 +32,11 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String URL_MEASURES = "http://192.168.88.241/php_api/GET.php";
+    String URL_MEASURES = "http://192.168.88.241/php_api/GET.php";
+    String URL_TABLES = "http://192.168.88.241/php_api/GET_TABLE.php";
 
     List<Measure> measureList;
+    List<History> historyList;
 
     RecyclerView recyclerView;
     Button b;
@@ -42,21 +45,55 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.history);
 
-        recyclerView = findViewById(R.id.);
+        recyclerView = findViewById(R.id.HistoryView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         measureList = new ArrayList<>();
+        historyList = new ArrayList<>();
 
-        b = (Button)findViewById(R.id.textViewTable_Name);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadTable();
-            }
-        });
+        loadHistory();
 
+
+
+    }
+
+    private void loadHistory() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TABLES,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            JSONArray array = new JSONArray(response);
+
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject history = array.getJSONObject(i);
+
+                                historyList.add(new History(history.getString("0")));
+                            }
+
+                            HistoryAdapter adapter = new HistoryAdapter(MainActivity.this, historyList);
+                            recyclerView.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        NetworkResponse networkResponse = error.networkResponse;
+                        if (networkResponse != null && networkResponse.data != null) {
+                            String jsonError = new String(networkResponse.data);
+                            Toast.makeText(getApplicationContext(), "Error: " + jsonError, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+        Volley.newRequestQueue(this).add(stringRequest);
     }
 
     private void loadTable() {
