@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<Measure> measureList;
     List<History> historyList;
-
+    LinearLayout linearLayout;
     RecyclerView recyclerView;
     Button b;
 
@@ -48,21 +49,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history);
 
-        recyclerView = findViewById(R.id.HistoryView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
+        linearLayout = findViewById(R.id.buttonlayout);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
         measureList = new ArrayList<>();
         historyList = new ArrayList<>();
 
         loadHistory();
 
-        Button button = (Button) findViewById(R.id.textViewTable_Name);
+        /*Button button = (Button) findViewById(R.id.textViewTable_Name);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, button.getText().toString(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
     }
 
@@ -78,13 +78,16 @@ public class MainActivity extends AppCompatActivity {
 
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject history = array.getJSONObject(i);
-                                Button btn= new Button();
+                                Button btn = new Button(MyApplication.getAppContext());
                                 btn.setText(history.getString("0"));
+                                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.buttonlayout);
+                                LinearLayout.LayoutParams buttonlayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                linearLayout.addView(btn, buttonlayout);
                                 btn.setOnClickListener(new View.OnClickListener()
                                 {
                                     public void onClick(View view)
                                     {
-                                        //your write code
+                                        Toast.makeText(MainActivity.this, btn.getText().toString(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                                 //historyList.add(new History(history.getString("0")));
