@@ -15,8 +15,6 @@ const state = {
       lineTension: 0.35,
       borderColor: 'rgba(0,0,0,1)',
       borderWidth: 2,
-      responsive: true, 
-      maintainAspectRatio: false, 
       data: [150, 105, 80, 94, 48, 35, 75, 205, 173, 199, 195, 300, 150, 50, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89],
     }
   ]
@@ -30,12 +28,13 @@ const History = () => {
           data={state}
           options={{
             title:{
-              display:false,
+              display:false
             },
             legend:{
-              display:false,
-
-            }
+              display:false
+            },
+            responsive: true, 
+            maintainAspectRatio: false, 
           }}
         />
       </div>
