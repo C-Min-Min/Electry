@@ -2,8 +2,7 @@
 <img src="https://github.com/C-Min-Min/Electry/blob/main/images/electry_logo.png" width="360">
 
 # Описание:
-Techary обединява всичко добро от всяка социална медия на едно място!
-
+Electry ...
 ## Презентация (+ видео):
 ### YouTube
 [![YouTube Electry](https://i.ytimg.com/vi/[INSERT_ID]/maxresdefault.jpg)](https://www.youtube.com/watch?v=[INSERT_ID])
