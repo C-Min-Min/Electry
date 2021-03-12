@@ -35,17 +35,17 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 Determining if the C compiler works passed with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_29674"
-[1/2] Building C object CMakeFiles/cmTC_29674.dir/testCCompiler.c.obj
-[2/2] Linking C executable cmTC_29674
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_00a8c"
+[1/2] Building C object CMakeFiles/cmTC_00a8c.dir/testCCompiler.c.obj
+[2/2] Linking C executable cmTC_00a8c
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_2d4d2"
-[1/2] Building C object CMakeFiles/cmTC_2d4d2.dir/CMakeCCompilerABI.c.obj
-[2/2] Linking C executable cmTC_2d4d2
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_f1f8b"
+[1/2] Building C object CMakeFiles/cmTC_f1f8b.dir/CMakeCCompilerABI.c.obj
+[2/2] Linking C executable cmTC_f1f8b
 Using built-in specs.
 COLLECT_GCC=E:\MyStuff\MyWork\ESP32_WROOVER\.espressif\tools\xtensa-esp32-elf\esp-2020r3-8.4.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe
 COLLECT_LTO_WRAPPER=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe
@@ -55,18 +55,18 @@ Thread model: posix
 gcc version 8.4.0 (crosstool-NG esp-2020r3) 
 COMPILER_PATH=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/;e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/;e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/bin/
 LIBRARY_PATH=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/;e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/;e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/
-COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_2d4d2'
- e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe -plugin e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll -plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\ccwWFeW9.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_2d4d2 e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0 -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib CMakeFiles/cmTC_2d4d2.dir/CMakeCCompilerABI.c.obj -lgcc -lc -lnosys -lc -lgcc e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtend.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtn.o
-COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_2d4d2'
+COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_f1f8b'
+ e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe -plugin e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll -plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\ccf5B5mP.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_f1f8b e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0 -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib CMakeFiles/cmTC_f1f8b.dir/CMakeCCompilerABI.c.obj -lgcc -lc -lnosys -lc -lgcc e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtend.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtn.o
+COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_f1f8b'
 
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(xtensa-esp32-elf-ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_2d4d2"]
-  ignore line: [[1/2] Building C object CMakeFiles/cmTC_2d4d2.dir/CMakeCCompilerABI.c.obj]
-  ignore line: [[2/2] Linking C executable cmTC_2d4d2]
+  ignore line: [Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_f1f8b"]
+  ignore line: [[1/2] Building C object CMakeFiles/cmTC_f1f8b.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [[2/2] Linking C executable cmTC_f1f8b]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=E:\MyStuff\MyWork\ESP32_WROOVER\.espressif\tools\xtensa-esp32-elf\esp-2020r3-8.4.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-gcc.exe]
   ignore line: [COLLECT_LTO_WRAPPER=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe]
@@ -80,27 +80,27 @@ Parsed C implicit link information from above output:
   ignore line: [LIBRARY_PATH=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/]
   ignore line: [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/]
   ignore line: [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_2d4d2']
-  link line: [ e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe -plugin e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll -plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\ccwWFeW9.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_2d4d2 e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0 -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib CMakeFiles/cmTC_2d4d2.dir/CMakeCCompilerABI.c.obj -lgcc -lc -lnosys -lc -lgcc e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtend.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_f1f8b']
+  link line: [ e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe -plugin e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll -plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\ccf5B5mP.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_f1f8b e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0 -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib CMakeFiles/cmTC_f1f8b.dir/CMakeCCompilerABI.c.obj -lgcc -lc -lnosys -lc -lgcc e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtend.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtn.o]
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe] ==> ignore
     arg [-plugin] ==> ignore
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll] ==> ignore
     arg [-plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe] ==> ignore
-    arg [-plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\ccwWFeW9.res] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\ccf5B5mP.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
     arg [-plugin-opt=-pass-through=-lnosys] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_2d4d2] ==> ignore
+    arg [cmTC_f1f8b] ==> ignore
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o] ==> ignore
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o] ==> ignore
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o] ==> ignore
     arg [-Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0] ==> dir [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0]
     arg [-Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc] ==> dir [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc]
     arg [-Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib] ==> dir [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib]
-    arg [CMakeFiles/cmTC_2d4d2.dir/CMakeCCompilerABI.c.obj] ==> ignore
+    arg [CMakeFiles/cmTC_f1f8b.dir/CMakeCCompilerABI.c.obj] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [-lc] ==> lib [c]
     arg [-lnosys] ==> lib [nosys]
@@ -121,9 +121,9 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_5afc0"
-[1/2] Building C object CMakeFiles/cmTC_5afc0.dir/feature_tests.c.obj
-[2/2] Linking C executable cmTC_5afc0
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_60f01"
+[1/2] Building C object CMakeFiles/cmTC_60f01.dir/feature_tests.c.obj
+[2/2] Linking C executable cmTC_60f01
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -135,9 +135,9 @@ Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_3dcb6"
-[1/2] Building C object CMakeFiles/cmTC_3dcb6.dir/feature_tests.c.obj
-[2/2] Linking C executable cmTC_3dcb6
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_c0ae0"
+[1/2] Building C object CMakeFiles/cmTC_c0ae0.dir/feature_tests.c.obj
+[2/2] Linking C executable cmTC_c0ae0
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -149,9 +149,9 @@ Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_b0017"
-[1/2] Building C object CMakeFiles/cmTC_b0017.dir/feature_tests.c.obj
-[2/2] Linking C executable cmTC_b0017
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_fd9b8"
+[1/2] Building C object CMakeFiles/cmTC_fd9b8.dir/feature_tests.c.obj
+[2/2] Linking C executable cmTC_fd9b8
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -161,17 +161,17 @@ Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/
 Determining if the CXX compiler works passed with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_e6446"
-[1/2] Building CXX object CMakeFiles/cmTC_e6446.dir/testCXXCompiler.cxx.obj
-[2/2] Linking CXX executable cmTC_e6446
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_7a90e"
+[1/2] Building CXX object CMakeFiles/cmTC_7a90e.dir/testCXXCompiler.cxx.obj
+[2/2] Linking CXX executable cmTC_7a90e
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_e872f"
-[1/2] Building CXX object CMakeFiles/cmTC_e872f.dir/CMakeCXXCompilerABI.cpp.obj
-[2/2] Linking CXX executable cmTC_e872f
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_31299"
+[1/2] Building CXX object CMakeFiles/cmTC_31299.dir/CMakeCXXCompilerABI.cpp.obj
+[2/2] Linking CXX executable cmTC_31299
 Using built-in specs.
 COLLECT_GCC=E:\MyStuff\MyWork\ESP32_WROOVER\.espressif\tools\xtensa-esp32-elf\esp-2020r3-8.4.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-g++.exe
 COLLECT_LTO_WRAPPER=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe
@@ -181,18 +181,18 @@ Thread model: posix
 gcc version 8.4.0 (crosstool-NG esp-2020r3) 
 COMPILER_PATH=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/;e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/;e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/bin/
 LIBRARY_PATH=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/;e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/;e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/
-COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_e872f'
- e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe -plugin e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll -plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\cc13HpOg.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_e872f e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0 -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib CMakeFiles/cmTC_e872f.dir/CMakeCXXCompilerABI.cpp.obj -lstdc++ -lm -lgcc -lc -lnosys -lc -lgcc e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtend.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtn.o
-COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_e872f'
+COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_31299'
+ e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe -plugin e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll -plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\cceIXcnE.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_31299 e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0 -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib CMakeFiles/cmTC_31299.dir/CMakeCXXCompilerABI.cpp.obj -lstdc++ -lm -lgcc -lc -lnosys -lc -lgcc e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtend.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtn.o
+COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_31299'
 
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(xtensa-esp32-elf-ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_e872f"]
-  ignore line: [[1/2] Building CXX object CMakeFiles/cmTC_e872f.dir/CMakeCXXCompilerABI.cpp.obj]
-  ignore line: [[2/2] Linking CXX executable cmTC_e872f]
+  ignore line: [Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_31299"]
+  ignore line: [[1/2] Building CXX object CMakeFiles/cmTC_31299.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [[2/2] Linking CXX executable cmTC_31299]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=E:\MyStuff\MyWork\ESP32_WROOVER\.espressif\tools\xtensa-esp32-elf\esp-2020r3-8.4.0\xtensa-esp32-elf\bin\xtensa-esp32-elf-g++.exe]
   ignore line: [COLLECT_LTO_WRAPPER=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe]
@@ -206,27 +206,27 @@ Parsed CXX implicit link information from above output:
   ignore line: [LIBRARY_PATH=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/]
   ignore line: [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/]
   ignore line: [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_e872f']
-  link line: [ e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe -plugin e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll -plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\cc13HpOg.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_e872f e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0 -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib CMakeFiles/cmTC_e872f.dir/CMakeCXXCompilerABI.cpp.obj -lstdc++ -lm -lgcc -lc -lnosys -lc -lgcc e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtend.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-Wno-frame-address' '-v' '-o' 'cmTC_31299']
+  link line: [ e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe -plugin e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll -plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\cceIXcnE.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lnosys -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -o cmTC_31299 e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0 -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc -Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib CMakeFiles/cmTC_31299.dir/CMakeCXXCompilerABI.cpp.obj -lstdc++ -lm -lgcc -lc -lnosys -lc -lgcc e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtend.o e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtn.o]
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/collect2.exe] ==> ignore
     arg [-plugin] ==> ignore
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/liblto_plugin-0.dll] ==> ignore
     arg [-plugin-opt=e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/8.4.0/lto-wrapper.exe] ==> ignore
-    arg [-plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\cc13HpOg.res] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\DARKVA~1\AppData\Local\Temp\cceIXcnE.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
     arg [-plugin-opt=-pass-through=-lnosys] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_e872f] ==> ignore
+    arg [cmTC_31299] ==> ignore
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib/crt0.o] ==> ignore
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crti.o] ==> ignore
     arg [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/crtbegin.o] ==> ignore
     arg [-Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0] ==> dir [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0]
     arg [-Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc] ==> dir [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc]
     arg [-Le:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib] ==> dir [e:/mystuff/mywork/esp32_wroover/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/8.4.0/../../../../xtensa-esp32-elf/lib]
-    arg [CMakeFiles/cmTC_e872f.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+    arg [CMakeFiles/cmTC_31299.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc] ==> lib [gcc]
@@ -249,9 +249,9 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++2a] compiler features compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_b1423"
-[1/2] Building CXX object CMakeFiles/cmTC_b1423.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_b1423
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_7e83c"
+[1/2] Building CXX object CMakeFiles/cmTC_7e83c.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_7e83c
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -316,9 +316,9 @@ Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/
 Detecting CXX [-std=c++17] compiler features compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_e3b7c"
-[1/2] Building CXX object CMakeFiles/cmTC_e3b7c.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_e3b7c
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_88b9c"
+[1/2] Building CXX object CMakeFiles/cmTC_88b9c.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_88b9c
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -383,9 +383,9 @@ Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_97f29"
-[1/2] Building CXX object CMakeFiles/cmTC_97f29.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_97f29
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_4abb9"
+[1/2] Building CXX object CMakeFiles/cmTC_4abb9.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_4abb9
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -450,9 +450,9 @@ Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_6e019"
-[1/2] Building CXX object CMakeFiles/cmTC_6e019.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_6e019
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_340bb"
+[1/2] Building CXX object CMakeFiles/cmTC_340bb.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_340bb
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -517,9 +517,9 @@ Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: E:/MyStuff/MyWork/ESP32_WROOVER/file_serving/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_55a5d"
-[1/2] Building CXX object CMakeFiles/cmTC_55a5d.dir/feature_tests.cxx.obj
-[2/2] Linking CXX executable cmTC_55a5d
+Run Build Command:"E:/MyStuff/MyWork/ESP32_WROOVER/.espressif/tools/ninja/1.9.0/ninja.exe" "cmTC_906d4"
+[1/2] Building CXX object CMakeFiles/cmTC_906d4.dir/feature_tests.cxx.obj
+[2/2] Linking CXX executable cmTC_906d4
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
