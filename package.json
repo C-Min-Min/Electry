@@ -8,6 +8,7 @@
     "mysql": "^2.18.1",
     "node": "^15.10.0",
     "nodejs": "^0.0.0",
+    "package.json": "^2.0.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

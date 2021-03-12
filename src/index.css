@@ -2,7 +2,7 @@
   font-family: "Product Sans Black Regular";
   font-style: normal;
   font-weight: normal;
-  src: local("Product Sans Black Regular"),
+  src: local("Product Sans Black"),
       url("./components/fonts/ProductSans-Black.woff") format("woff");
 }
 
@@ -10,7 +10,7 @@
   font-family: "Product Sans Regular";
   font-style: normal;
   font-weight: normal;
-  src: local("Product Sans Black Regular"),
+  src: local("Product Sans Regular"),
       url("./components/fonts/ProductSans-Regular.woff") format("woff");
 }
 
@@ -23,7 +23,11 @@
 }
 
 *{
-  font-family: "Product Sans Black Regular" !important;
+  font-family: "Product Sans Black" !important;
+}
+
+html{
+  background-color: var(--background-color);
 }
 
 .box{

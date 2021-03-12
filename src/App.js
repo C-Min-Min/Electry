@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import {ThemeProvider} from "styled-components";
@@ -22,9 +22,9 @@ const App = () => {
 
   const [theme, themeToggler, mountedComponent] = useDarkMode();
 
-  const themeMode = theme === 'light' ? lightTheme : darkTheme;
+  let [title] = "Dashboard";
 
-  let title;
+  const themeMode = theme === 'light' ? lightTheme : darkTheme;
 
   if(!token) {
     return(
@@ -40,11 +40,11 @@ const App = () => {
         <GlobalStyles/>
           <div className="wrapper">
             <Title />
-            <Navigaton className='nav'title={title}/>
+            <Navigaton className='nav' title={title}/>
             <BrowserRouter>
                 <Switch>
-                <Route path="/dashboard" title={this.title}>
-                    <Dashboard />
+                <Route path="/dashboard">
+                    <Dashboard title={title}/>
                 </Route>
                 <Route path="/details">
                     <Details />
