@@ -7,7 +7,7 @@ export const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.text}; 
   }
   .box{
-    background: ${({ theme }) => theme.body};
+    background: ${({ theme }) => theme.box};
   }
   
 `

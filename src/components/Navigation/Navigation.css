@@ -1,6 +1,8 @@
 .navigation{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100vw;
 }
 
 h1{
@@ -19,4 +21,16 @@ a{
 a:hover{
     text-decoration: underline;
     transition: 500ms;
+}
+
+.innerNav{
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+#logo{
+    height: 55px;
+    align-items: flex-end;
+    padding-right: 15px;
 }

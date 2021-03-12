@@ -19,3 +19,14 @@
 .bigNumber{
     font-size: 75px;
 }
+
+@media screen and (max-width: 800px){
+    #dashboard{
+        grid-template-columns: 100%;
+        grid-template-rows: unset;
+        height: unset;
+    }
+    html, body{
+        height: unset;
+    }
+}

@@ -2,17 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './Navigation.css';
+import logo from '../../img/logo.png'
 
 
 const Navigation = ({title}) => {
     return(
         <div className='navigation'>
-            <h1>{title}</h1>
-            <a href='/dashboard'>Home</a>
-            <a href='/details'>Details</a>
-            <a href='/history'>History</a>
-            <a href='/ambient-mode'>Ambient mode</a>
-            <a href='/settings'>Settings</a>
+            <div className='innerNav'>
+                <h1>{title}</h1>
+                <a href='/dashboard'>Home</a>
+                <a href='/details'>Details</a>
+                <a href='/history'>History</a>
+                <a href='/ambient-mode'>Ambient mode</a>
+                <a href='/settings'>Settings</a>
+            </div>
+            <img id='logo' src={logo}/>
         </div>
         
     );
