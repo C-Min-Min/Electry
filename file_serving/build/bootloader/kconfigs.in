@@ -1,0 +1,5 @@
+source "E:/MyStuff/MyWork/ESP32_WROOVER/esp-idf/components/efuse/Kconfig"
+source "E:/MyStuff/MyWork/ESP32_WROOVER/esp-idf/components/esp32/Kconfig"
+source "E:/MyStuff/MyWork/ESP32_WROOVER/esp-idf/components/esp_common/Kconfig"
+source "E:/MyStuff/MyWork/ESP32_WROOVER/esp-idf/components/log/Kconfig"
+source "E:/MyStuff/MyWork/ESP32_WROOVER/esp-idf/components/spi_flash/Kconfig"

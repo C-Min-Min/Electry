@@ -1,0 +1,26 @@
+menu "Example Connection Configuration"
+
+    config EXAMPLE_WIFI_SSID
+        string "WiFi SSID"
+        default "Tech_D3881996"
+        help
+            SSID (network name) for the example to connect to.
+
+    config EXAMPLE_WIFI_PASSWORD
+        string "WiFi Password"
+        default "FJHPEPJJ"
+        help
+            WiFi password (WPA or WPA2) for the example to use.
+
+    config BLINK_GPIO
+        int "Blink GPIO number"
+        range 0 34
+        default 25
+        help
+            GPIO number (IOxx) to blink on and off.
+
+            Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.
+
+            GPIOs 35-39 are input-only so cannot be used as outputs.
+
+endmenu

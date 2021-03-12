@@ -1,0 +1,3 @@
+source "E:/MyStuff/MyWork/ESP32_WROOVER/esp-idf/components/bootloader/Kconfig.projbuild"
+source "E:/MyStuff/MyWork/ESP32_WROOVER/esp-idf/components/esptool_py/Kconfig.projbuild"
+source "E:/MyStuff/MyWork/ESP32_WROOVER/esp-idf/components/partition_table/Kconfig.projbuild"
