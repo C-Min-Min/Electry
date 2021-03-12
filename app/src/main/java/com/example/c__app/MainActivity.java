@@ -1,6 +1,7 @@
 package com.example.c__app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -55,7 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
         loadHistory();
 
-
+        Button button = (Button) findViewById(R.id.textViewTable_Name);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, button.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -71,12 +78,20 @@ public class MainActivity extends AppCompatActivity {
 
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject history = array.getJSONObject(i);
-
-                                historyList.add(new History(history.getString("0")));
+                                Button btn= new Button();
+                                btn.setText(history.getString("0"));
+                                btn.setOnClickListener(new View.OnClickListener()
+                                {
+                                    public void onClick(View view)
+                                    {
+                                        //your write code
+                                    }
+                                });
+                                //historyList.add(new History(history.getString("0")));
                             }
 
-                            HistoryAdapter adapter = new HistoryAdapter(MainActivity.this, historyList);
-                            recyclerView.setAdapter(adapter);
+                            //HistoryAdapter adapter = new HistoryAdapter(MainActivity.this, historyList);
+                            //recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
