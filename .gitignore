@@ -1,6 +1,6 @@
-.zip
-.7z
-.rar
+*.zip
+*.7z
+*.rar
 /esp32-wifi-manager-master
 /esp-idf
 /.espressif
