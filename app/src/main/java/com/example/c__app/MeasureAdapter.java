@@ -33,7 +33,7 @@ public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureV
     public void onBindViewHolder(@NonNull MeasureViewHolder holder, int position) {
         Measure measure = measureList.get(position);
 
-        holder.textViewId.setText(String.valueOf("Id: " + measure.getId()));
+        holder.textViewId.setText("Id: " + String.valueOf(measure.getId()));
         holder.textViewStart_Time.setText("Start_time: " + String.valueOf(measure.getStart_time()));
         holder.textViewPower.setText("Power: " + String.valueOf(measure.getPower()));
     }
