@@ -44,88 +44,68 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recylcerView);
+        recyclerView = findViewById(R.id.);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         measureList = new ArrayList<>();
 
-        b = (Button)findViewById(R.id.button);
+        b = (Button)findViewById(R.id.textViewTable_Name);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_MEASURES,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Toast.makeText(MainActivity.this, response.trim(), Toast.LENGTH_SHORT).show();
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                StringWriter sw = new StringWriter();
-                                PrintWriter pw = new PrintWriter(sw);
-                                error.printStackTrace(pw);
-                            }
-                        }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("table", "measurements_5_0");
-
-                        return params;
-                    }
-                };
-                RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-                requestQueue.add(stringRequest);
+                loadTable();
             }
         });
 
     }
 
-    private void loadMeasures() {
+    private void loadTable() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_MEASURES,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_MEASURES,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                                JSONArray array = new JSONArray(response);
 
-                        try {
+                                for (int i = 0; i < array.length(); i++) {
+                                        JSONObject measure = array.getJSONObject(i);
 
-                            JSONArray array = new JSONArray(response);
+                                        measureList.add(new Measure(
+                                                measure.getInt("id"),
+                                                measure.getDouble("start_time"),
+                                                measure.getDouble("power")
+                                        ));
 
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONArray childJsonArray = array.getJSONArray(i);
-                                for (int j = 0; j < childJsonArray.length(); j++) {
-                                    JSONObject measure = childJsonArray.getJSONObject(j);
-
-                                    measureList.add(new Measure(
-                                            measure.getInt("id"),
-                                            measure.getDouble("start_time"),
-                                            measure.getDouble("power")
-                                    ));
                                 }
+
+                                MeasureAdapter adapter = new MeasureAdapter(MainActivity.this, measureList);
+                                recyclerView.setAdapter(adapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-                            MeasureAdapter adapter = new MeasureAdapter(MainActivity.this, measureList);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        NetworkResponse networkResponse = error.networkResponse;
-                        if (networkResponse != null && networkResponse.data != null) {
-                            String jsonError = new String(networkResponse.data);
-                            Toast.makeText(getApplicationContext(), "Error: " + jsonError, Toast.LENGTH_LONG).show();
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            NetworkResponse networkResponse = error.networkResponse;
+                            if (networkResponse != null && networkResponse.data != null) {
+                                String jsonError = new String(networkResponse.data);
+                                Toast.makeText(getApplicationContext(), "Error: " + jsonError, Toast.LENGTH_LONG).show();
+                            }
                         }
+                    }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("table", "measurements_5_0");
 
-                    }
-                });
-        Volley.newRequestQueue(this).add(stringRequest);
+                    return params;
+                }
+            };
+            Volley.newRequestQueue(this).add(stringRequest);
+
     }
 
 }
