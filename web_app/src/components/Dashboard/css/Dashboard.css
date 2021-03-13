@@ -1,0 +1,32 @@
+#dashboard{
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 50% 50%;
+    height: calc(100vh - 61px);
+}
+
+.cube{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.box{
+    margin: 15px;
+}
+
+.bigNumber{
+    font-size: 75px;
+}
+
+@media screen and (max-width: 800px){
+    #dashboard{
+        grid-template-columns: 100%;
+        grid-template-rows: unset;
+        height: unset;
+    }
+    html, body{
+        height: unset;
+    }
+}
