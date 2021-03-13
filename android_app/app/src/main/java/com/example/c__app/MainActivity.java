@@ -42,8 +42,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    String URL_MEASURES = "http://192.168.88.241/php_api/GET.php";
-    String URL_TABLES = "http://192.168.88.241/php_api/GET_TABLE.php";
+    String URL_MEASURES = "https://iconic-reactor-307007.ey.r.appspot.com/GET.php";
+    String URL_TABLES = "https://iconic-reactor-307007.ey.r.appspot.com/GET_TABLE.php";
 
     List<Measure> measureList;
     LinearLayout linearLayout;
