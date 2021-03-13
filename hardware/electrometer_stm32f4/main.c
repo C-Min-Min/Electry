@@ -341,21 +341,22 @@ void main(){
     MCU_Init();
 	
     //RTC_TimeTypeDef time1;
-    //RTC_DateTypeDef date;
+    RTC_TimeTypeDef time;
+    RTC_DateTypeDef date;
 
-	event_control.event_present = 0;
-	event_control.has_a_shot = 0;
-	event_control.id_consumer = 0;
-	event_control.event_created = 0;
+    event_control.event_present = 0;
+    event_control.has_a_shot = 0;
+    event_control.id_consumer = 0;
+    event_control.event_created = 0;
 
-	uint8_t transmit_to_esp32_flag = 3;	// TEST
+    uint8_t transmit_to_esp32_flag = 10;	// TEST
 
 /*	while(!wait_ms_ch(channelTime1, 1000));
 	RTC_GetTime(RTC_Format_BIN, &time1);
 	//printf("Time is: %d:%d:%d\n", time1.RTC_Hours, time1.RTC_Minutes, time1.RTC_Seconds);
 	while(!wait_ms_ch(channelTime1, 1000));*/
 
-    while(1){      
+    while(1){
         if(READ_RxSTATUS_FLAG){
               printf("\nDATA: %s\n", rx_data);
               strcpy(rx_data, "");
@@ -365,12 +366,13 @@ void main(){
             event_measurement[0].id_consumer = 9;
             event_measurement[0].id_event = 0;
             event_measurement[0].id_measurement = 0;
-            strcat(event_measurement[0].timestamp_time_start, "20210309131313");
+            strcat(event_measurement[0].timestamp_time_start, "20210309131315");
             event_measurement[0].power = 9000;
 
             Fill_Tx_buffer(&event_measurement[0]);
             Transmit_to_esp32();
             transmit_to_esp32_flag--;
+            delay_ms(1000);
             strcpy(event_measurement[0].timestamp_time_start, "");
         }
     }

@@ -217,8 +217,8 @@ void USART1_IRQHandler (void){
 									event_control.REACTIVE_POWER = REACTIVE_POWER;
 								}
 							} else {
-								if(the_same_CURRENT_RMS){
-								}
+//								if(the_same_CURRENT_RMS){
+//								}
 							}
 						}
 
