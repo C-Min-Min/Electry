@@ -5,7 +5,7 @@ import './Login.css';
 
 
 async function loginUser(credentials) {
-    return fetch('http://192.168.0.148:8080/login', {
+    return fetch('http://localhost:8080/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
