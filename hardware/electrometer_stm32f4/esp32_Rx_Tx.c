@@ -65,7 +65,7 @@ void Fill_Tx_buffer(event_measurement_struct_t *tx_struct){
     char *num;
     int offset = 0;
     
-    sprintf(tx_data, "~;0;%d;%d;", (int)tx_struct->id_consumer, (int)tx_struct->id_measurement);    
+    sprintf(tx_data, "~;0;%d;%d;%d;", (int)tx_struct->id_consumer, (int)tx_struct->id_event, (int)tx_struct->id_measurement);    
     for(int i = 0; i < strlen(tx_struct->timestamp_time_start); i++){
       if(i == 4 || i == 6){
         num[i+offset] = '-';
@@ -81,7 +81,7 @@ void Fill_Tx_buffer(event_measurement_struct_t *tx_struct){
     }
     strcat(tx_data, num);
     strcpy(num, "");
-    sprintf(num, ";%d;%d", tx_struct->power, 0x66);
+    sprintf(num, ";%d;%d;%d", tx_struct->power, 0x66, 0x90);
     strcat(tx_data, num);
     strcpy(num, "");
     //printf("\n\nTHE FORMATED BUFFER: %s\n\n", tx_data);

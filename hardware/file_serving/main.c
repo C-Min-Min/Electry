@@ -72,8 +72,8 @@ static EventGroupHandle_t s_wifi_event_group;
 static const char *TAG="example";
 static const int RX_BUF_SIZE = 255;
 uint8_t index_write_measurement_struct = 0, index_write_event_struct = 0, index_send_measurement_struct = 0, index_send_event_struct = 0, flag_send_measurement = 0, flag_send_event = 0;
-#define URL "http://learningmoorree.000webhostapp.com/post-esp-data.php"
-
+//#define URL "http://learningmoorree.000webhostapp.com/post-esp-data.php"
+#define URL "https://iconic-reactor-307007.ey.r.appspot.com/post-esp-data.php"
 
 typedef struct event_table_struct{
 	char consumer_id[5];
@@ -516,11 +516,11 @@ void send_request_to_mysql(char *buf){
 
 	esp_err_t err = esp_http_client_perform(client);
 	if (err == ESP_OK) {
-		ESP_LOGI(TAG, "Status = %d, content_length = %d", 
-		    esp_http_client_get_status_code(client), 
+		ESP_LOGI(TAG, "Status = %d, content_length = %d",
+		    esp_http_client_get_status_code(client),
 		    esp_http_client_get_content_length(client));
 	}
-	esp_http_client_cleanup(client);	
+	esp_http_client_cleanup(client);
 }
 
 
@@ -633,6 +633,20 @@ void app_main(void){
 //	ip_file();
 
 
+	for(int i = 0; i < 50; i++){
+		strcpy(measurement_struct[i].consumer_id, "");
+		strcpy(measurement_struct[i].event_id, "");
+		strcpy(measurement_struct[i].start_time, "");
+		strcpy(measurement_struct[i].power, "");
+		if(i < 10){
+    		strcpy(event_struct[i].consumer_id, "");
+			strcpy(event_struct[i].event_id, "");
+			strcpy(event_struct[i].start_time, "");
+			strcpy(event_struct[i].power, "");
+		}
+	}
+
+
     const uart_config_t uart_config = {
         .baud_rate = 115200,
         .data_bits = UART_DATA_8_BITS,
@@ -649,26 +663,11 @@ void app_main(void){
 	ESP_LOGI(TAG, "Trying to read UART...");
     xTaskCreate(rx_task, "uart_rx_task", 2600, NULL, 1|portPRIVILEGE_BIT, NULL);
 
-	for(int i = 0; i < 50; i++){
-		strcpy(measurement_struct[i].consumer_id, "");
-		strcpy(measurement_struct[i].event_id, "");
-		strcpy(measurement_struct[i].start_time, "");
-		strcpy(measurement_struct[i].power, "");
-		if(i < 10){
-    		strcpy(event_struct[i].consumer_id, "");
-			strcpy(event_struct[i].event_id, "");
-			strcpy(event_struct[i].start_time, "");
-			strcpy(event_struct[i].power, "");
-		}
-	}
-
-
 	///Configuations///
 	///Send requests///
   while(1){
 	char buf[200];
 	if(index_send_event_struct != index_write_event_struct && flag_send_event){
-//		ESP_LOGI(TAG, "\nEVENT: %s %s %s %s", event_struct[index_send_event_struct].consumer_id, event_struct[index_send_event_struct].event_id, event_struct[index_send_event_struct].start_time, event_struct[index_send_event_struct].power);
 		prepare_buf_for_event_table(&event_struct[index_send_event_struct], (char*)&buf);		
 		send_request_to_mysql((char*)&buf);
 		strcpy(event_struct[index_send_event_struct].consumer_id, "");
@@ -683,7 +682,6 @@ void app_main(void){
 	}
 
 	if(index_send_measurement_struct != index_write_measurement_struct && !flag_send_event && flag_send_measurement){
-//		ESP_LOGI(TAG, "\nMEASUREMENT: %s %s %s %s", measurement_struct[index_send_measurement_struct].consumer_id, measurement_struct[index_send_measurement_struct].event_id, measurement_struct[index_send_measurement_struct].start_time, measurement_struct[index_send_measurement_struct].power);
 		prepare_buf_for_measurement_table(&measurement_struct[index_send_measurement_struct], (char*)&buf);
 		send_request_to_mysql((char*)&buf);
 		strcpy(measurement_struct[index_send_measurement_struct].consumer_id, "");
@@ -697,10 +695,5 @@ void app_main(void){
 		flag_send_measurement--;
 	}
 	strcpy(buf, "");
-	/*	prepare_buf_for_event_table(&event_struct[current_event_tables_index], buf);
-		send_request_to_mysql(buf);
-
-		prepare_buf_for_measurement_table(&measurement_struct[current_measurement_tables_index], buf);
-		send_request_to_mysql(buf);*/
   }
 }

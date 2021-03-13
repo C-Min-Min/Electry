@@ -1,0 +1,406 @@
+<table class="fixed" border="0">
+    <col width="1000px" /><col width="800px" />
+    <tr><td>
+        <h2>ESP32 File Server</h2>
+    </td><td>
+        <table border="0">
+            <tr>
+                <td>
+                    <label for="newfile">Upload a file</label>
+                </td>
+                <td colspan="2">
+                    <input id="newfile" type="file" onchange="setpath()" style="width:100%;">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="filepath">Set path on server</label>
+                </td>
+                <td>
+                    <input id="filepath" type="text" style="width:100%;">
+                </td>
+                <td>
+                    <button id="upload" type="button" onclick="upload()">Upload</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="switchcommand">Switch the LED</label>
+                </td>
+                <td>
+                    <input id="switchcommand" type="text" style="width:80%;">
+                </td>
+                <td>
+                    <button id="switchled" type="button" onclick="switchled(2)">Send</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="switchledon" type="button" style="background-color: #4CAF50; border:  none; color: white; padding: 6px 35px; \
+									text-decoration: none; font-size: 22px; margin: 2px; cursor: pointer;" onclick="switchled(1)">Led ON</button>
+                </td>
+                <td>
+                    <button id="switchledoff" type="button" style="background-color: #8A1717; border:  none; color: white; padding: 6px 30px; \
+									text-decoration: none; font-size: 22px; margin: 2px; cursor: pointer;" onclick="switchled(0)">Led OFF</button>
+                </td>
+            </tr>
+        </table>
+    </td></tr>
+</table>
+<button id="users" style="color:#ffffff; background:#000000" type="button" onclick="users()">Doo something</button>
+
+<script>
+function setpath() {
+    var default_path = document.getElementById("newfile").files[0].name;
+    document.getElementById("filepath").value = default_path;
+}
+
+function users() {
+	document.getElementById("users").innerHTML += " OK";
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4) {
+			if (xhttp.status == 200) {
+				document.open();
+				document.write(xhttp.responseText);
+				document.close();
+			} else if (xhttp.status == 0) {
+				alert("Server closed the connection abruptly!");
+			} else {
+				alert(xhttp.status + " Error!\n" + xhttp.responseText);
+			}
+		}
+	};
+    xhttp.open("POST", "/spiffs/testing_request_to_server.txt", true);
+    xhttp.send();
+}
+
+
+function upload() {
+    var filePath = document.getElementById("filepath").value;
+    var upload_path = "/upload/" + filePath;
+    var fileInput = document.getElementById("newfile").files;
+
+    /* Max size of an individual file. Make sure this
+     * value is same as that set in file_server.c */
+    var MAX_FILE_SIZE = 200*1024;
+    var MAX_FILE_SIZE_STR = "200KB";
+
+    if (fileInput.length == 0) {
+        alert("No file selected!");
+    } else if (filePath.length == 0) {
+        alert("File path on server is not set!");
+    } else if (filePath.indexOf(' ') >= 0) {
+        alert("File path on server cannot have spaces!");
+    } else if (filePath[filePath.length-1] == '/') {
+        alert("File name not specified after path!");
+    } else if (fileInput[0].size > 200*1024) {
+        alert("File size must be less than 200KB!");
+    } else {
+        document.getElementById("newfile").disabled = true;
+        document.getElementById("filepath").disabled = true;
+        document.getElementById("upload").disabled = true;
+
+        var file = fileInput[0];
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+            }
+        };
+        xhttp.open("POST", upload_path, true);
+        xhttp.send(file);
+    }
+}
+function switchled(autocommand) {
+    var switchcommand = document.getElementById("switchcommand").value;
+    var upload_path = "/upload/" + "led.txt";
+
+	if (autocommand == 0) {
+		switchcommand = 'off';
+	} else if (autocommand == 1) {
+		switchcommand = 'on';
+	}
+	if (switchcommand.length == 0) {
+        alert("Write command for Switch button!");
+    } else if (switchcommand.indexOf(' ') >= 0) {
+        alert("Command cannot have spaces!");
+	} else {
+        document.getElementById("switchcommand").disabled = true;
+        document.getElementById("switchled").disabled = true;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                if (xhttp.status == 200) {
+                    document.open();
+                    document.write(xhttp.responseText);
+                    document.close();
+                } else if (xhttp.status == 0) {
+                    alert("Server closed the connection abruptly!");
+                    location.reload()
+                } else {
+                    alert(xhttp.status + " Error!\n" + xhttp.responseText);
+                    location.reload()
+                }
+            }
+        };
+        xhttp.open("POST", upload_path, true);
+        xhttp.send(switchcommand);
+    }
+}
+function set_data(id_btn, id_hidden){
+    if (document.getElementById(id_btn).style.backgroundColor == 'rgb(85, 51, 170)'){
+		document.getElementById(id_btn).style="background-color:#FFFFFF; color:#000000";
+		document.getElementById(id_hidden).value="n";
+	}else{
+		document.getElementById(id_btn).style="background-color:#5533AA; color:#FFFFFF";
+		document.getElementById(id_hidden).value="y";
+	}
+}
+function check_data(form_Id, start_time_Id, end_time_Id, monday_Id, tuesday_Id, wednesday_Id, thursday_Id, friday_Id,
+																								saturday_Id, sunday_Id, holiday_Id){
+	if(document.getElementById(start_time_Id).value >= document.getElementById(end_time_Id).value){
+		alert("Крайният час трябва да е по-голям от началния час.");
+	}else if(document.getElementById(monday_Id).value == 'n' && document.getElementById(tuesday_Id).value == 'n' &&
+				document.getElementById(wednesday_Id).value == 'n' && document.getElementById(thursday_Id).value == 'n' &&
+					document.getElementById(friday_Id).value == 'n' && document.getElementById(saturday_Id).value == 'n' &&
+						document.getElementById(sunday_Id).value == 'n' && document.getElementById(holiday_Id).value == 'n'){
+		alert("Задайте ден от седмицата.");
+	}else document.getElementById(form_Id).submit();
+}
+function delete_data(delete_index){
+}
+</script>
+
+<script>
+function program_table(p_number, start_time, end_time, days, temperature){
+	document.write("<tr>");
+	document.write("<td><form id='form");
+		document.write(p_number);
+	document.write("' action='/save/program_list.hex' method='post'>");
+	document.write("<input type='hidden' name='program' value='");
+		document.write(p_number);
+	document.write("'/><label>");
+		document.write(p_number);
+	document.write("</label>");
+	document.write("</td><td>");
+	document.write("<input type='time' id='start_time");
+		document.write(p_number);
+	document.write("' name='start_time' value='");
+		document.write(start_time);
+	document.write("'></td>");
+	document.write("<td><input type='time' id='end_time");
+		document.write(p_number);
+	document.write("' name='end_time' value='");
+		document.write(end_time);
+	document.write("'></td>");
+	document.write("<td>");
+<!-- -->
+	document.write("<input type=\"button\"");
+	if (Boolean(days & 0x01)) {
+		document.write(" style=\"background:rgb(85, 51, 170); color:#FFFFFF\"");
+	}
+	document.write(" id=\"btn_monday");
+		document.write(p_number);
+	document.write("\" value=\"пн\" onclick=\"set_data('btn_monday");
+		document.write(p_number);
+	document.write("', 'monday");
+		document.write(p_number);
+	document.write("')\"/>");
+
+	document.write("<input type=\"button\"");
+	if (Boolean(days & 0x02)) {
+		document.write(" style=\"background:rgb(85, 51, 170); color:#FFFFFF\"");
+	}
+	document.write(" id=\"btn_tuesday");
+		document.write(p_number);
+	document.write("\" value=\"вт\" onclick=\"set_data('btn_tuesday");
+		document.write(p_number);
+	document.write("', 'tuesday");
+		document.write(p_number);
+	document.write("')\"/>");
+
+	document.write("<input type=\"button\"");
+	if (Boolean(days & 0x04)) {
+		document.write(" style=\"background:rgb(85, 51, 170); color:#FFFFFF\"");
+	}
+	document.write(" id=\"btn_wednesday");
+		document.write(p_number);
+	document.write("\" value=\"ср\" onclick=\"set_data('btn_wednesday");
+		document.write(p_number);
+	document.write("', 'wednesday");
+		document.write(p_number);
+	document.write("')\"/>");
+
+	document.write("<input type=\"button\"");
+	if (Boolean(days & 0x08)) {
+		document.write(" style=\"background:rgb(85, 51, 170); color:#FFFFFF\"");
+	}
+	document.write(" id=\"btn_thursday");
+		document.write(p_number);
+	document.write("\" value=\"чт\" onclick=\"set_data('btn_thursday");
+		document.write(p_number);
+	document.write("', 'thursday");
+		document.write(p_number);
+	document.write("')\"/>");
+
+	document.write("<input type=\"button\"");
+	if (Boolean(days & 0x10)) {
+		document.write(" style=\"background:rgb(85, 51, 170); color:#FFFFFF\"");
+	}
+	document.write(" id=\"btn_friday");
+		document.write(p_number);
+	document.write("\" value=\"пт\" onclick=\"set_data('btn_friday");
+		document.write(p_number);
+	document.write("', 'friday");
+		document.write(p_number);
+	document.write("')\"/>");
+
+	document.write("<input type=\"button\"");
+	if (Boolean(days & 0x20)) {
+		document.write(" style=\"background:rgb(85, 51, 170); color:#FFFFFF\"");
+	}
+	document.write(" id=\"btn_saturday");
+		document.write(p_number);
+	document.write("\" value=\"сб\" onclick=\"set_data('btn_saturday");
+		document.write(p_number);
+	document.write("', 'saturday");
+		document.write(p_number);
+	document.write("')\"/>");
+
+	document.write("<input type=\"button\"");
+	if (Boolean(days & 0x40)) {
+		document.write(" style=\"background:rgb(85, 51, 170); color:#FFFFFF\"");
+	}
+	document.write("id=\"btn_sunday");
+		document.write(p_number);
+	document.write("\" value=\"нд\" onclick=\"set_data('btn_sunday");
+		document.write(p_number);
+	document.write("', 'sunday");
+		document.write(p_number);
+	document.write("')\"/>");
+
+	document.write("<input type=\"button\"");
+	if (Boolean(days & 0x80)) {
+		document.write(" style=\"background:rgb(85, 51, 170); color:#FFFFFF\"");
+	}
+	document.write(" id=\"btn_holiday");
+		document.write(p_number);
+	document.write("\" value=\"празник\" onclick=\"set_data('btn_holiday");
+		document.write(p_number);
+	document.write("', 'holiday");
+		document.write(p_number);
+	document.write("')\"/>");
+<!-- -->
+	document.write("<input type=\"hidden\" name=\"mon\" value=\"");
+	if (Boolean(days & 0x01)) {
+	document.write("y");
+	} else document.write("n");
+	document.write("\" id=\"monday");
+		document.write(p_number);
+	document.write("\"/>");
+
+	document.write("<input type=\"hidden\" name=\"tue\" value=\"");
+	if (Boolean(days & 0x02)) {
+	document.write("y");
+	} else document.write("n");
+	document.write("\" id=\"tuesday");
+		document.write(p_number);
+	document.write("\"/>");
+
+	document.write("<input type=\"hidden\" name=\"wed\" value=\"");
+	if (Boolean(days & 0x04)) {
+	document.write("y");
+	} else document.write("n");
+	document.write("\" id=\"wednesday");
+		document.write(p_number);
+	document.write("\"/>");
+
+	document.write("<input type=\"hidden\" name=\"thu\" value=\"");
+	if (Boolean(days & 0x08)) {
+	document.write("y");
+	} else document.write("n");
+	document.write("\" id=\"thursday");
+		document.write(p_number);
+	document.write("\"/>");
+
+	document.write("<input type=\"hidden\" name=\"fri\" value=\"");
+	if (Boolean(days & 0x10)) {
+	document.write("y");
+	} else document.write("n");
+	document.write("\" id=\"friday");
+		document.write(p_number);
+	document.write("\"/>");
+
+	document.write("<input type=\"hidden\" name=\"sat\" value=\"");
+	if (Boolean(days & 0x20)) {
+	document.write("y");
+	} else document.write("n");
+	document.write("\" id=\"saturday");
+		document.write(p_number);
+	document.write("\"/>");
+
+	document.write("<input type=\"hidden\" name=\"sun\" value=\"");
+	if (Boolean(days & 0x40)) {
+	document.write("y");
+	} else document.write("n");
+	document.write("\" id=\"sunday");
+		document.write(p_number);
+	document.write("\"/>");
+
+	document.write("<input type=\"hidden\" name=\"hol\" value=\"");
+	if (Boolean(days & 0x80)) {
+	document.write("y");
+	} else document.write("n");
+	document.write("\" id=\"holiday");
+		document.write(p_number);
+	document.write("\"/>");
+<!-- -->
+	document.write("</td><td>");
+	document.write("<input type='number' name='temperature' style='text-align:center;' value='");
+		document.write(temperature);
+	document.write("' min='7' max='70'><label> C</label>");
+	document.write("</td>");
+	document.write("<td><input onclick='delete_data(");
+		document.write(p_number);
+	document.write(")' type='button' value='Изтрий'/></td>");
+<!-- -->
+	document.write("<td><input onclick=\"check_data('form");
+		document.write(p_number);
+	document.write("', 'start_time");
+		document.write(p_number);
+	document.write("', 'end_time");
+		document.write(p_number);
+	document.write("', 'monday");
+		document.write(p_number);
+	document.write("', 'tuesday");
+		document.write(p_number);
+	document.write("', 'wednesday");
+		document.write(p_number);
+	document.write("', 'thursday");
+		document.write(p_number);
+	document.write("', 'friday");
+		document.write(p_number);
+	document.write("', 'saturday");
+		document.write(p_number);
+	document.write("', 'sunday");
+		document.write(p_number);
+	document.write("', 'holiday");
+		document.write(p_number);
+	document.write("')\" type=\"button\" value=\"Запази\"/></form></td>");
+<!-- -->
+	document.write("</tr>");
+}
+</script>
+
