@@ -41,12 +41,12 @@
 #define EXAMPLE_AP_WIFI_SSID		"WRover"
 #define EXAMPLE_AP_WIFI_PASS		""
 #define EXAMPLE_MAX_STA_CONN		4
-#define EXAMPLE_STA_WIFI_SSID		"Koko"
-//#define EXAMPLE_STA_WIFI_SSID		"Bluebird"
+//#define EXAMPLE_STA_WIFI_SSID		"Koko"
+#define EXAMPLE_STA_WIFI_SSID		"Bluebird"
 //#define EXAMPLE_STA_WIFI_SSID		"Tech_D3881996"
-//#define EXAMPLE_STA_WIFI_PASS		"vas1905vld"
+#define EXAMPLE_STA_WIFI_PASS		"vas1905vld"
 //#define EXAMPLE_STA_WIFI_PASS		"FJHPEPJJ"
-#define EXAMPLE_STA_WIFI_PASS		"KokoLia13"
+//#define EXAMPLE_STA_WIFI_PASS		"KokoLia13"
 #define EXAMPLE_STA_MAXIMUM_RETRY	5
 
 #define MAX_EVENT_TAB 10
@@ -71,22 +71,22 @@ static EventGroupHandle_t s_wifi_event_group;
 
 static const char *TAG="example";
 static const int RX_BUF_SIZE = 255;
-int index_write_measurement_struct = 0, index_write_event_struct = 0, index_read_measurement_struct = 0, index_read_event_struct = 0;
+uint8_t index_write_measurement_struct = 0, index_write_event_struct = 0, index_send_measurement_struct = 0, index_send_event_struct = 0, flag_send_measurement = 0, flag_send_event = 0;
 #define URL "http://learningmoorree.000webhostapp.com/post-esp-data.php"
 
 
 typedef struct event_table_struct{
-	char *consumer_id;
-	char *event_id;
-	char *start_time;
-	char *power;
+	char consumer_id[5];
+	char event_id[5];
+	char power[10];
+	char start_time[20];
 }event_table;
 
 typedef struct measurement_table_struct{
-	char *consumer_id;
-	char *event_id;
-	char *start_time;
-	char *power;
+	char consumer_id[5];
+	char event_id[5];
+	char power[10];
+	char start_time[20];
 }measurement_table;
 
 event_table event_struct[MAX_EVENT_TAB];
@@ -506,7 +506,7 @@ void prepare_buf_for_measurement_table(measurement_table *table, char *bufffer){
 	strcat(bufffer, table->start_time);
 	strcat(bufffer, "&power=");
 	strcat(bufffer, table->power);
-	ESP_LOGI(TAG, "Buffer: %s%d", bufffer, 15);
+	ESP_LOGI(TAG, "Buffer: %s   datetime: %s", bufffer, table->start_time);
 }
 
 void send_request_to_mysql(char *buf){
@@ -537,7 +537,7 @@ static void rx_task(void *arg)
     char data[RX_BUF_SIZE], *data_p = data;
 	
     while(1){
-        const int rxBytes = uart_read_bytes(UART_NUM_1, (uint8_t*)data_p, RX_BUF_SIZE, 1 / portTICK_RATE_MS);
+        int rxBytes = uart_read_bytes(UART_NUM_1, (uint8_t*)data_p, RX_BUF_SIZE, 1 / portTICK_RATE_MS);
         if(rxBytes > 0){
             data[rxBytes] = 0;
         	/**//**/
@@ -556,39 +556,46 @@ static void rx_task(void *arg)
 				strcpy(uart_request_elements, strtok(NULL, ";"));
 				strcpy(header_info[i], uart_request_elements);				
 			}
-
-			if(!(strcmp(header_info[1], "0"))){
-				if(!(strcmp(header_info[4], "0"))){
-					if(index_write_measurement_struct != index_read_measurement_struct || (index_write_measurement_struct == index_read_measurement_struct && strlen(measurement_struct[index_read_measurement_struct].consumer_id) == 0)){
-						uint8_t index = index_write_measurement_struct;
-						strcpy(measurement_struct[index].consumer_id, header_info[2]);
-						strcpy(measurement_struct[index].event_id, header_info[3]);
-						strcpy(measurement_struct[index].start_time, header_info[5]);
-						strcpy(measurement_struct[index].power, header_info[6]);
-
-						if(index_write_measurement_struct != 49)  index_write_measurement_struct++;
-						else  index_write_measurement_struct = 0;
+			
+			if(!strcmp(header_info[1], "0")){
+				if(!(strcmp(header_info[3], "0"))){
+					if((index_write_measurement_struct != index_send_measurement_struct) || index_write_measurement_struct == 0){
+						strcat(measurement_struct[index_write_measurement_struct].consumer_id, header_info[2]);
+						strcat(measurement_struct[index_write_measurement_struct].event_id, header_info[3]);
+						strcat(measurement_struct[index_write_measurement_struct].start_time, header_info[4]);
+						strcat(measurement_struct[index_write_measurement_struct].power, header_info[5]);
+						
+						index_write_measurement_struct++;
+						if(index_write_measurement_struct == 50)  index_write_measurement_struct = 0;
+						if(index_write_measurement_struct == index_send_measurement_struct){
+							if(!index_write_measurement_struct)  index_write_measurement_struct = 49;
+							else  index_write_measurement_struct--;
+						}
+						flag_send_measurement++;
 						sendData(TAG, "DATA LOADED!~");
-					}else  sendData(TAG, "ERROR CONNECTION!~");
-				}else if(!(strcmp(header_info[4], "1"))){
-					if(index_write_event_struct != index_read_event_struct || (index_write_event_struct == index_read_event_struct && strlen(measurement_struct[index_read_event_struct].consumer_id) == 0)){
-						uint8_t index = index_write_event_struct;
-						strcpy(event_struct[index].consumer_id, header_info[2]);
-						strcpy(event_struct[index].event_id, header_info[3]);
-						strcpy(event_struct[index].start_time, header_info[5]);
-						strcpy(event_struct[index].power, header_info[6]);
+					}else  ESP_LOGI(TAG, "MEASUREMENTS ERROR CONNECTION!~%d  %d", index_write_measurement_struct, index_send_measurement_struct);
+				}else if(!(strcmp(header_info[3], "1"))){
+					if((index_write_event_struct != index_send_event_struct) || !index_write_event_struct){
+						strcat(event_struct[index_write_event_struct].consumer_id, header_info[2]);
+						strcat(event_struct[index_write_event_struct].event_id, header_info[3]);
+						strcat(event_struct[index_write_event_struct].start_time, header_info[4]);
+						strcat(event_struct[index_write_event_struct].power, header_info[5]);
 
-						if(index_write_event_struct != 9)  index_write_event_struct++;
-						else  index_write_event_struct = 0;
+						if(++index_write_event_struct == 10)  index_write_event_struct = 0;
+						if(index_write_event_struct == index_send_event_struct){
+							if(!index_write_event_struct)  index_write_event_struct = 49;
+							else  index_write_event_struct--;
+						}
+						flag_send_event++;
 						sendData(TAG, "DATA LOADED!~");
-					}else  sendData(TAG, "ERROR NOT ENOUGH SPACE!~");
-				}
-      		    sendData(TAG, "ERROR CONNECTION!~");
+					}else  sendData(TAG, "EVENT ERROR NOT ENOUGH SPACE!~");
+				}else  sendData(TAG, header_info[3]);
 			}else if(!(strcmp(header_info[1], "1"))){
 				char transmit_indexes[15];
-				sprintf(transmit_indexes, "%d%d%d%d!~", index_write_measurement_struct, index_write_event_struct, index_read_measurement_struct, index_read_event_struct);
+				sprintf(transmit_indexes, "%d%d%d%d!~", index_write_measurement_struct, index_write_event_struct, index_send_measurement_struct, index_send_event_struct);
 				sendData(TAG, (char*)transmit_indexes);
-			}else  sendData(TAG, "ERROR CONNECTION!~");
+			}else  sendData(TAG, "WHY WHY WHY ERROR CONNECTION!~");
+			rxBytes = 0;
 			/**//**/
 
 			//ESP_LOG_BUFFER_HEXDUMP(RX_TASK_TAG, data, rxBytes, ESP_LOG_INFO);
@@ -654,40 +661,40 @@ void app_main(void){
 
 
 
-	///Configuations///	
-	//char *buf;	
-	
+	///Configuations///
 	///Send requests///
   while(1){
-	if(index_write_measurement_struct != 0){
-		ESP_LOGI(TAG, "\n%s\n", measurement_struct[index_write_measurement_struct-1].consumer_id);
-	}else if(index_write_event_struct != 0){
-		 ESP_LOGI(TAG, "\n%s\n", event_struct[index_write_event_struct-1].consumer_id);
-	}
-	/*if(index_read_event_struct != index_write_event_struct){
-		uint8_t index = index_read_event_struct;
-		ESP_LOGI(TAG, "\nEVENT: %s %s %s %s", event_struct[index].consumer_id, event_struct[index].event_id, event_struct[index].start_time, event_struct[index].power);
-		strcpy(event_struct[index].consumer_id, "");
-		strcpy(event_struct[index].event_id, "");
-		strcpy(event_struct[index].start_time, "");
-		strcpy(event_struct[index].power, "");
+	char buf[200];
+	if(index_send_event_struct != index_write_event_struct && flag_send_event){
+//		ESP_LOGI(TAG, "\nEVENT: %s %s %s %s", event_struct[index_send_event_struct].consumer_id, event_struct[index_send_event_struct].event_id, event_struct[index_send_event_struct].start_time, event_struct[index_send_event_struct].power);
+		prepare_buf_for_event_table(&event_struct[index_send_event_struct], (char*)&buf);		
+		send_request_to_mysql((char*)&buf);
+		strcpy(event_struct[index_send_event_struct].consumer_id, "");
+		strcpy(event_struct[index_send_event_struct].event_id, "");
+		strcpy(event_struct[index_send_event_struct].start_time, "");
+		strcpy(event_struct[index_send_event_struct].power, "");
 
-        if(index_read_event_struct != 9)  index_read_event_struct++;
-		else  index_read_event_struct = 0;
+        if(index_send_event_struct+1 == index_write_event_struct);
+		else if(index_send_event_struct+1 == 9)  index_send_event_struct = 0;
+		else  ++index_send_event_struct;
+		flag_send_event--;
 	}
 
-	if(index_read_measurement_struct != index_write_measurement_struct && index_read_event_struct == index_write_event_struct){
-		uint8_t index = index_read_measurement_struct;
-		ESP_LOGI(TAG, "\nMEASUREMENT: %s %s %s %s", measurement_struct[index].consumer_id, measurement_struct[index].event_id, measurement_struct[index].start_time, measurement_struct[index].power);
-		strcpy(measurement_struct[index].consumer_id, "");
-		strcpy(measurement_struct[index].event_id, "");
-		strcpy(measurement_struct[index].start_time, "");
-		strcpy(measurement_struct[index].power, "");
+	if(index_send_measurement_struct != index_write_measurement_struct && index_send_event_struct == index_write_event_struct && flag_send_measurement){
+//		ESP_LOGI(TAG, "\nMEASUREMENT: %s %s %s %s", measurement_struct[index_send_measurement_struct].consumer_id, measurement_struct[index_send_measurement_struct].event_id, measurement_struct[index_send_measurement_struct].start_time, measurement_struct[index_send_measurement_struct].power);
+		prepare_buf_for_measurement_table(&measurement_struct[index_send_measurement_struct], (char*)&buf);
+		send_request_to_mysql((char*)&buf);
+		strcpy(measurement_struct[index_send_measurement_struct].consumer_id, "");
+		strcpy(measurement_struct[index_send_measurement_struct].event_id, "");
+		strcpy(measurement_struct[index_send_measurement_struct].start_time, "");
+		strcpy(measurement_struct[index_send_measurement_struct].power, "");
 
-        if(index_read_measurement_struct != 49)  index_read_measurement_struct++;
-		else  index_read_measurement_struct = 0;
+        if(index_send_measurement_struct+1 == index_write_measurement_struct);
+		else if(index_send_measurement_struct+1 == 9)  index_send_measurement_struct = 0;
+		else  ++index_send_measurement_struct;
+		flag_send_measurement--;
 	}
-		prepare_buf_for_event_table(&event_struct[current_event_tables_index], buf);
+	/*	prepare_buf_for_event_table(&event_struct[current_event_tables_index], buf);
 		send_request_to_mysql(buf);
 
 		prepare_buf_for_measurement_table(&measurement_struct[current_measurement_tables_index], buf);

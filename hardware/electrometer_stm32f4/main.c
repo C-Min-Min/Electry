@@ -1,8 +1,8 @@
-//#include "stm32f4xx.h"
-
 #include "esp32_Rx_Tx.h"
 #include "mcp39f511.h"
+#include "delay.h"
 #include "main.h"
+
 
 /////////////////////////////// INCLUDES ///////////////////////////////////////
 
@@ -21,7 +21,11 @@ void ConfigureADC();
 void ConfigureDAC();
 void ConfigureTIM10();
 
-event_measurement_struct_t event_measurement;
+event_measurement_struct_t event_measurement[100];
+MCP_measurement_struct_t MCP_measurement[100];	// 100 measurements for N = 0
+event_control_struct_t event_control;
+uint8_t first_empty_element_of_roll_buffer = 0;	// For measurements
+uint8_t first_element_for_transmit_of_roll_buffer = 0;	// To ESP32 (STM32 - USART2)
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -37,6 +41,13 @@ void Init_RCC(){
     RCC_ClocksTypeDef rcc_freq;
     RCC_GetClocksFreq(&rcc_freq);
     printf("\nRCC INITIALIZATION: \nSystem clock freq - %d\nHCLK clock freq - %d\nPCLK1 clock freq - %d\nPCLK2 clock freq - %d\n", rcc_freq.SYSCLK_Frequency, rcc_freq.HCLK_Frequency, rcc_freq.PCLK1_Frequency, rcc_freq.PCLK2_Frequency);
+}
+
+void SysTickInit(uint16_t frequency){
+    RCC_ClocksTypeDef RCC_Clocks;
+
+    RCC_GetClocksFreq(&RCC_Clocks);
+    (void) SysTick_Config(RCC_Clocks.HCLK_Frequency / frequency);
 }
 
 void Init_RTC(){
@@ -218,6 +229,7 @@ void Init_GPIO(){
 
 void MCU_Init(){
     Init_RCC();
+	SysTickInit(1000);
     if(!RTC_FLAG_INITS) Init_RTC();
     Init_USART1();
     Init_USART2();
@@ -324,31 +336,25 @@ void TIM1_UP_TIM10_IRQHandler(){
 
 void main(){
     MCU_Init();
-    RTC_TimeTypeDef time1;
+	
+    //RTC_TimeTypeDef time1;
     //RTC_DateTypeDef date;
-    int sec = 0;
-    int sec1 = 0;
-    int transmit_to_esp32_flag = 1;
 
-    char *tx_buff = "_VAS", *rx_buff;
+	event_control.event_present = 0;
+	event_control.start_time = 0;
+	event_control.CURRENT_RMS = 0;
+	event_control.ACTIVE_POWER = 0;
+	event_control.REACTIVE_POWER = 0;
+
+	uint8_t transmit_to_esp32_flag = 8;	// TEST
+
+    //char *tx_buff = "_VAS", *rx_buff;
     //uint8_t flag_read = 0xFF;
 
-    //Transmit_to_esp32(tx_buff);
-
-////
-    RTC_GetTime(RTC_Format_BIN, &time1);
-/*    if(sec != time1.RTC_Seconds) sec = time1.RTC_Seconds;
-    while(sec == sec1){
-        RTC_GetTime(RTC_Format_BIN, &time1);
-        sec1 = time1.RTC_Seconds;
-    }*/
-/*    sec = sec1;
-    while(sec == sec1){
-        RTC_GetTime(RTC_Format_BIN, &time1);
-        sec1 = time1.RTC_Seconds;
-    }*/
-////
-
+/*	while(!wait_ms_ch(channelTime1, 1000));
+	RTC_GetTime(RTC_Format_BIN, &time1);
+	//printf("Time is: %d:%d:%d\n", time1.RTC_Hours, time1.RTC_Minutes, time1.RTC_Seconds);
+	while(!wait_ms_ch(channelTime1, 1000));*/
 
     while(1){
 /*        if(READ_RxSTATUS_FLAG && flag_read){
@@ -357,22 +363,23 @@ void main(){
             flag_read = ~flag_read;
         }else if(READ_RxSTATUS_FLAG)  flag_read = ~flag_read;*/
 
-/*        if(READ_RxSTATUS_FLAG){
+        if(READ_RxSTATUS_FLAG){
           printf("\nDATA: %s\n", rx_data);
           strcpy(rx_data, "");
           READ_RxSTATUS_FLAG = ~READ_RxSTATUS_FLAG;
-        }*/
+        }
         if(transmit_to_esp32_flag){
-            event_measurement.id_consumer = 9;
-            event_measurement.id_event = 19;
-            event_measurement.id_measurement = 27;
-            strcat(event_measurement.timestamp_time_start, "20210309131313");
-            event_measurement.power = 9000;
+            event_measurement[0].id_consumer = 8;
+            event_measurement[0].id_event = 0;
+            event_measurement[0].id_measurement = 0;
+            strcat(event_measurement[0].timestamp_time_start, "20210309131313");
+            event_measurement[0].power = 9000;
 
-            Fill_Tx_buffer(&event_measurement);
+            Fill_Tx_buffer(&event_measurement[0]);
             Transmit_to_esp32();
             transmit_to_esp32_flag--;
-            strcpy(event_measurement.timestamp_time_start, "");
+            delay_ms(1000);
+            strcpy(event_measurement[0].timestamp_time_start, "");
         }
     }
 }
