@@ -1,5 +1,5 @@
 # Electry
-<img src="https://github.com/C-Min-Min/Electry/blob/main/images/electry_logo.png" width="360">
+<img src="/assets/images/electry_logo.png" width="360">
 
 # Описание:
 Electry ...
