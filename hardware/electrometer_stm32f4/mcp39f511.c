@@ -22,6 +22,9 @@ void USART1_IRQHandler (void){
 	static uint16_t LINE_FREQUENCY;
 	static uint8_t CHECKSUM = 0;
 
+	static RTC_TimeTypeDef start_time;
+	static RTC_DateTypeDef start_date;
+
 	static uint8_t t = 0;	//TEST
 
 	GPIO_SetBits(GPIOA, GPIO_Pin_8);	// TEST
@@ -176,12 +179,60 @@ void USART1_IRQHandler (void){
 				if(n == CHECKSUM){
 					CHECKSUM = 0;
 					// OK
+
+					/********************************************************************************/
+					/* The code below is responsible for event recognition for electrical consumers */
+					/********************************************************************************/
 					if(CURRENT_RMS > CURRENT_RMS_OFFSET_VALUE){
-						MCP_measurement[first_empty_element_of_roll_buffer].CURRENT_RMS = CURRENT_RMS;
+						
+						if(!event_control.event_present){
+							event_control.event_present = 1;	// event_measurement started
+							first_empty_element_of_shot_measurement = 0;	// Initialize shot_measurement index
+							write_registerd16(MCP_COMP_PERIPH_ENERGY_CONTROL, 0x0001);	// Energy Control enable
+
+							RTC_GetTime(RTC_Format_BCD, &start_time);	// Set event_start time
+							event_control.start_time = start_time;
+							RTC_GetDate(RTC_Format_BCD, &start_date);	// Set event_start date
+							event_control.start_date = start_date;
+
+							shot_measurement[first_empty_element_of_shot_measurement].CURRENT_RMS = CURRENT_RMS;
+							shot_measurement[first_empty_element_of_shot_measurement].VOLTAGE_RMS = VOLTAGE_RMS;
+							shot_measurement[first_empty_element_of_shot_measurement].ACTIVE_POWER = ACTIVE_POWER;
+							shot_measurement[first_empty_element_of_shot_measurement].REACTIVE_POWER = REACTIVE_POWER;
+							shot_measurement[first_empty_element_of_shot_measurement].LINE_FREQUENCY = LINE_FREQUENCY;
+							first_empty_element_of_shot_measurement++;
+						} else {
+							if(!event_control.has_a_shot){
+								shot_measurement[first_empty_element_of_shot_measurement].CURRENT_RMS = CURRENT_RMS;
+								shot_measurement[first_empty_element_of_shot_measurement].VOLTAGE_RMS = VOLTAGE_RMS;
+								shot_measurement[first_empty_element_of_shot_measurement].ACTIVE_POWER = ACTIVE_POWER;
+								shot_measurement[first_empty_element_of_shot_measurement].REACTIVE_POWER = REACTIVE_POWER;
+								shot_measurement[first_empty_element_of_shot_measurement].LINE_FREQUENCY = LINE_FREQUENCY;
+								if(++first_empty_element_of_shot_measurement == SHOT_MAX_NUMBER){
+									first_empty_element_of_shot_measurement = 0;
+									event_control.has_a_shot = 1;
+									
+									event_control.CURRENT_RMS = CURRENT_RMS;
+									event_control.ACTIVE_POWER = ACTIVE_POWER;
+									event_control.REACTIVE_POWER = REACTIVE_POWER;
+								}
+							} else {
+								if(the_same_CURRENT_RMS){
+								}
+							}
+						}
+
+/*						MCP_measurement[first_empty_element_of_roll_buffer].CURRENT_RMS = CURRENT_RMS;
 						MCP_measurement[first_empty_element_of_roll_buffer].VOLTAGE_RMS = VOLTAGE_RMS;
 						MCP_measurement[first_empty_element_of_roll_buffer].ACTIVE_POWER = ACTIVE_POWER;
 						MCP_measurement[first_empty_element_of_roll_buffer].REACTIVE_POWER = REACTIVE_POWER;
-						MCP_measurement[first_empty_element_of_roll_buffer].LINE_FREQUENCY = LINE_FREQUENCY;
+						MCP_measurement[first_empty_element_of_roll_buffer].LINE_FREQUENCY = LINE_FREQUENCY;*/
+
+						MCP_measurement.CURRENT_RMS = CURRENT_RMS;
+						MCP_measurement.VOLTAGE_RMS = VOLTAGE_RMS;
+						MCP_measurement.ACTIVE_POWER = ACTIVE_POWER;
+						MCP_measurement.REACTIVE_POWER = REACTIVE_POWER;
+						MCP_measurement.LINE_FREQUENCY = LINE_FREQUENCY;
 
 						if(++first_empty_element_of_roll_buffer == 20) first_empty_element_of_roll_buffer = 0;
 
@@ -200,7 +251,14 @@ void USART1_IRQHandler (void){
 							}
 							t = 1;*/
 						}
+					} else {
+						if(event_control.event_present){
+						} else {
+						}
 					}
+					/********************************************************************************/
+					/*	end  ************************************************************************/
+					/********************************************************************************/
 				} else {
 					// ERR Single-wire transmission frame
 					printf("USART1_Rx: ERR\n");	// TEST
@@ -389,7 +447,17 @@ void Init_Mcp39f511(){
 	write_registerd16(MCP_CALIB_GAIN_ACTIVE_POWER, 0x88A9);	// Set GANE Pa
 	while(!wait_ms_ch(channelTime2, 10));
 
+	//write_registerd32(MCP_CALIB_OFFSET_CURRENT_RMS, 0x00000006);	// Set OFFSET I
+	//while(!wait_ms_ch(channelTime2, 10));
+
+	//write_registerd32(MCP_CALIB_OFFSET_ACTIVE_POWER, 0x00000000);	// Set OFFSET Pa
+	//while(!wait_ms_ch(channelTime2, 10));
+
+	//write_registerd32(MCP_CALIB_OFFSET_REACTIVE_POWER, 0x00000000);	// Set OFFSET Pr
+	//while(!wait_ms_ch(channelTime2, 10));
+
 	Save_Registers_To_Flash();	// Save all registers
+	while(!wait_ms_ch(channelTime2, 100));
 #endif
 
 	/* Calibration subroutine */
@@ -407,24 +475,32 @@ void Init_Mcp39f511(){
 		while(!wait_ms_ch(channelTime2, 100));
 	}
 
-	/*read_registerds(MCP_CONFIG_1_RANGE, 4);
+	/* Only if we want to read some registers of MCP39F511 */
+#if(1)
+	read_registerds(MCP_CONFIG_1_RANGE, 4);
 	while(!wait_ms_ch(channelTime2, 10));
-	read_registerds(MCP_OUTPUT_REG_CURRENT_RMS, 4);
+	read_registerds(MCP_OUTPUT_REG_CURRENT_RMS, 4);		// CURRENT_RMS value
 	while(!wait_ms_ch(channelTime2, 10));
-	read_registerds(MCP_OUTPUT_REG_VOLTAGE_RMS, 2);
+	read_registerds(MCP_OUTPUT_REG_VOLTAGE_RMS, 2);		// VOLTAGE_RMS value
 	while(!wait_ms_ch(channelTime2, 10));
-	read_registerds(MCP_OUTPUT_REG_ACTIVE_POWER, 4);
+	read_registerds(MCP_OUTPUT_REG_ACTIVE_POWER, 4);	// ACTIVE_POWER value
 	while(!wait_ms_ch(channelTime2, 10));
-	read_registerds(MCP_CALIB_GAIN_CURRENT_RMS, 2);
+	read_registerds(MCP_CALIB_GAIN_CURRENT_RMS, 2);		// GANE I value
 	while(!wait_ms_ch(channelTime2, 10));
-	read_registerds(MCP_CALIB_GAIN_VOLTAGE_RMS, 2);
+	read_registerds(MCP_CALIB_GAIN_VOLTAGE_RMS, 2);		// GANE V value
 	while(!wait_ms_ch(channelTime2, 10));
-	read_registerds(MCP_CALIB_GAIN_ACTIVE_POWER, 2);
-	while(!wait_ms_ch(channelTime2, 1000));*/
+	read_registerds(MCP_CALIB_GAIN_ACTIVE_POWER, 2);	// GANE Pa value
+	while(!wait_ms_ch(channelTime2, 10));
+	read_registerds(MCP_CALIB_OFFSET_CURRENT_RMS, 4);	// OFFSET CURRENT_RMS value
+	while(!wait_ms_ch(channelTime2, 10));
+	read_registerds(MCP_CALIB_OFFSET_ACTIVE_POWER, 4);	// OFFSET ACTIVE_POWER value
+	while(!wait_ms_ch(channelTime2, 10));
+	read_registerds(MCP_CALIB_OFFSET_REACTIVE_POWER, 4);// OFFSET REACTIVE_POWER value
+	while(!wait_ms_ch(channelTime2, 100));
+#endif
 
-	write_registerd16(MCP_CONFIG_2_ACCUMULATION_INTERVAL, 0x0000);	// N for 2N number = 0
-	//write_registerd16(MCP_CONFIG_2_ACCUMULATION_INTERVAL, 0x0001);	// N for 2N number = 1
-	while(!wait_ms_ch(channelTime2, 10));
+	write_registerd16(MCP_CONFIG_2_ACCUMULATION_INTERVAL, 0x0000);	// N number = 0.	The accumulation interval is defined as
+	while(!wait_ms_ch(channelTime2, 10));							//							   an 2^N number of line cycles
 
 	write_registerd32(MCP_CONFIG_1_SYSTEM_CONFIG, 0x03000100);	// Single-wire transmission on
 	while(!wait_ms_ch(channelTime2, 10));

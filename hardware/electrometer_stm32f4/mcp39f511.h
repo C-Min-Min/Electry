@@ -4,12 +4,13 @@
 #include "stm32f4xx.h"
 
 
-#define CURRENT_RMS_OFFSET_VALUE 0x0000006E
+#define SHOT_MAX_NUMBER 50
+#define DIGITALIZATION FACTOR 1					// in percents
+#define CURRENT_RMS_OFFSET_VALUE 0x0000006F
 
-
-#define CALIB_CURRENT_VALUE 0x000003
-#define CALIB_VOLTAGE_VALUE 0x0277
-#define CALIB_POWER_ACTIVE_VALUE 0x00000251
+#define CALIB_CURRENT_VALUE 0x0000037E			// 89,4 mA
+#define CALIB_VOLTAGE_VALUE 0x027B				// 63,5 V
+#define CALIB_POWER_ACTIVE_VALUE 0x00000238		// 5,6769 W
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -292,6 +293,7 @@ typedef enum {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void write_registerd16(uint16_t address, int16_t data);
 void Init_Mcp39f511();
 
 #endif  // MCP39F511

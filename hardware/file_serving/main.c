@@ -534,36 +534,33 @@ static void rx_task(void *arg)
 {
     static const char *RX_TASK_TAG = "RX_TASK"; 
     esp_log_level_set(RX_TASK_TAG, ESP_LOG_INFO);
-    char data[RX_BUF_SIZE], *data_p = data;
 	
     while(1){
+        char data[RX_BUF_SIZE], *data_p = data;
         int rxBytes = uart_read_bytes(UART_NUM_1, (uint8_t*)data_p, RX_BUF_SIZE, 1 / portTICK_RATE_MS);
         if(rxBytes > 0){
             data[rxBytes] = 0;
-        	/**//**/
-			char bufer[15];
-        	/**//**/
-            ESP_LOGI(RX_TASK_TAG, "Read %d bytes: '%s'", rxBytes, data);
+            ESP_LOGI(RX_TASK_TAG, "Read %d bytes: '%s' send flag'%d' write flag'%d'", rxBytes, data, index_send_measurement_struct, index_write_measurement_struct);
 			
 			/**//**/
-			char uart_request_elements[20], header_info[8][20];
-			for(int i=0;i<8;i++)  strcpy(header_info[i], "");
+			char uart_request_elements[20], header_info[9][20];
+			for(int i=0;i<9;i++)  strcpy(header_info[i], "");
 	
 			strcpy(uart_request_elements, strtok(data_p, ";"));
 			strcpy(header_info[0], uart_request_elements);
-			for(int i = 1; i < 8; i++){
+			for(int i = 1; i < 9; i++){
 				ESP_LOGI(TAG, "Data content:  %s", header_info[i-1]);
 				strcpy(uart_request_elements, strtok(NULL, ";"));
 				strcpy(header_info[i], uart_request_elements);				
 			}
 			
 			if(!strcmp(header_info[1], "0")){
-				if(!(strcmp(header_info[3], "0"))){
+				if(!(strcmp(header_info[4], "0"))){
 					if((index_write_measurement_struct != index_send_measurement_struct) || index_write_measurement_struct == 0){
 						strcat(measurement_struct[index_write_measurement_struct].consumer_id, header_info[2]);
 						strcat(measurement_struct[index_write_measurement_struct].event_id, header_info[3]);
-						strcat(measurement_struct[index_write_measurement_struct].start_time, header_info[4]);
-						strcat(measurement_struct[index_write_measurement_struct].power, header_info[5]);
+						strcat(measurement_struct[index_write_measurement_struct].start_time, header_info[5]);
+						strcat(measurement_struct[index_write_measurement_struct].power, header_info[6]);
 						
 						index_write_measurement_struct++;
 						if(index_write_measurement_struct == 50)  index_write_measurement_struct = 0;
@@ -574,12 +571,12 @@ static void rx_task(void *arg)
 						flag_send_measurement++;
 						sendData(TAG, "DATA LOADED!~");
 					}else  ESP_LOGI(TAG, "MEASUREMENTS ERROR CONNECTION!~%d  %d", index_write_measurement_struct, index_send_measurement_struct);
-				}else if(!(strcmp(header_info[3], "1"))){
+				}else if(!(strcmp(header_info[4], "1"))){
 					if((index_write_event_struct != index_send_event_struct) || !index_write_event_struct){
 						strcat(event_struct[index_write_event_struct].consumer_id, header_info[2]);
 						strcat(event_struct[index_write_event_struct].event_id, header_info[3]);
-						strcat(event_struct[index_write_event_struct].start_time, header_info[4]);
-						strcat(event_struct[index_write_event_struct].power, header_info[5]);
+						strcat(event_struct[index_write_event_struct].start_time, header_info[5]);
+						strcat(event_struct[index_write_event_struct].power, header_info[6]);
 
 						if(++index_write_event_struct == 10)  index_write_event_struct = 0;
 						if(index_write_event_struct == index_send_event_struct){
@@ -589,7 +586,7 @@ static void rx_task(void *arg)
 						flag_send_event++;
 						sendData(TAG, "DATA LOADED!~");
 					}else  sendData(TAG, "EVENT ERROR NOT ENOUGH SPACE!~");
-				}else  sendData(TAG, header_info[3]);
+				}else  sendData(TAG, header_info[4]);
 			}else if(!(strcmp(header_info[1], "1"))){
 				char transmit_indexes[15];
 				sprintf(transmit_indexes, "%d%d%d%d!~", index_write_measurement_struct, index_write_event_struct, index_send_measurement_struct, index_send_event_struct);
@@ -597,11 +594,11 @@ static void rx_task(void *arg)
 			}else  sendData(TAG, "WHY WHY WHY ERROR CONNECTION!~");
 			rxBytes = 0;
 			/**//**/
-
+			strcpy(data, "");
+			for(int i = 0; i < 8; i++)  strcpy(header_info[i], "");
 			//ESP_LOG_BUFFER_HEXDUMP(RX_TASK_TAG, data, rxBytes, ESP_LOG_INFO);
 		}
 	}
-	free(data);
 }
 
 void app_main(void){
@@ -652,7 +649,18 @@ void app_main(void){
 	ESP_LOGI(TAG, "Trying to read UART...");
     xTaskCreate(rx_task, "uart_rx_task", 2600, NULL, 1|portPRIVILEGE_BIT, NULL);
 
-
+	for(int i = 0; i < 50; i++){
+		strcpy(measurement_struct[i].consumer_id, "");
+		strcpy(measurement_struct[i].event_id, "");
+		strcpy(measurement_struct[i].start_time, "");
+		strcpy(measurement_struct[i].power, "");
+		if(i < 10){
+    		strcpy(event_struct[i].consumer_id, "");
+			strcpy(event_struct[i].event_id, "");
+			strcpy(event_struct[i].start_time, "");
+			strcpy(event_struct[i].power, "");
+		}
+	}
 
 
 	///Configuations///
@@ -674,7 +682,7 @@ void app_main(void){
 		flag_send_event--;
 	}
 
-	if(index_send_measurement_struct != index_write_measurement_struct && index_send_event_struct == index_write_event_struct && flag_send_measurement){
+	if(index_send_measurement_struct != index_write_measurement_struct && !flag_send_event && flag_send_measurement){
 //		ESP_LOGI(TAG, "\nMEASUREMENT: %s %s %s %s", measurement_struct[index_send_measurement_struct].consumer_id, measurement_struct[index_send_measurement_struct].event_id, measurement_struct[index_send_measurement_struct].start_time, measurement_struct[index_send_measurement_struct].power);
 		prepare_buf_for_measurement_table(&measurement_struct[index_send_measurement_struct], (char*)&buf);
 		send_request_to_mysql((char*)&buf);
@@ -684,10 +692,11 @@ void app_main(void){
 		strcpy(measurement_struct[index_send_measurement_struct].power, "");
 
         if(index_send_measurement_struct+1 == index_write_measurement_struct);
-		else if(index_send_measurement_struct+1 == 9)  index_send_measurement_struct = 0;
+		else if(index_send_measurement_struct+1 == 49)  index_send_measurement_struct = 0;
 		else  ++index_send_measurement_struct;
 		flag_send_measurement--;
 	}
+	strcpy(buf, "");
 	/*	prepare_buf_for_event_table(&event_struct[current_event_tables_index], buf);
 		send_request_to_mysql(buf);
 

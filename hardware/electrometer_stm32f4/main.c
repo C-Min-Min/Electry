@@ -21,11 +21,14 @@ void ConfigureADC();
 void ConfigureDAC();
 void ConfigureTIM10();
 
-event_measurement_struct_t event_measurement[100];
-MCP_measurement_struct_t MCP_measurement[100];	// 100 measurements for N = 0
+event_measurement_struct_t event_measurement[100];	// Roll buffer for send to ESP32
+MCP_measurement_struct_t shot_measurement[100];	// 100 measurements (N = 0) for started event
+MCP_measurement_struct_t MCP_measurement;	// For measurements
 event_control_struct_t event_control;
-uint8_t first_empty_element_of_roll_buffer = 0;	// For measurements
+
+uint8_t first_empty_element_of_roll_buffer = 0;	// For event_measurement
 uint8_t first_element_for_transmit_of_roll_buffer = 0;	// To ESP32 (STM32 - USART2)
+uint8_t first_empty_element_of_shot_measurement = 0;	// For shot_measurement
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -341,35 +344,25 @@ void main(){
     //RTC_DateTypeDef date;
 
 	event_control.event_present = 0;
-	event_control.start_time = 0;
-	event_control.CURRENT_RMS = 0;
-	event_control.ACTIVE_POWER = 0;
-	event_control.REACTIVE_POWER = 0;
+	event_control.has_a_shot = 0;
+	event_control.id_consumer = 0;
+	event_control.event_created = 0;
 
-	uint8_t transmit_to_esp32_flag = 8;	// TEST
-
-    //char *tx_buff = "_VAS", *rx_buff;
-    //uint8_t flag_read = 0xFF;
+	uint8_t transmit_to_esp32_flag = 3;	// TEST
 
 /*	while(!wait_ms_ch(channelTime1, 1000));
 	RTC_GetTime(RTC_Format_BIN, &time1);
 	//printf("Time is: %d:%d:%d\n", time1.RTC_Hours, time1.RTC_Minutes, time1.RTC_Seconds);
 	while(!wait_ms_ch(channelTime1, 1000));*/
 
-    while(1){
-/*        if(READ_RxSTATUS_FLAG && flag_read){
-            Receive_from_esp32(rx_buff);
-            printf("\nReceived from esp32: %s\n", rx_buff);
-            flag_read = ~flag_read;
-        }else if(READ_RxSTATUS_FLAG)  flag_read = ~flag_read;*/
-
+    while(1){      
         if(READ_RxSTATUS_FLAG){
-          printf("\nDATA: %s\n", rx_data);
-          strcpy(rx_data, "");
-          READ_RxSTATUS_FLAG = ~READ_RxSTATUS_FLAG;
+              printf("\nDATA: %s\n", rx_data);
+              strcpy(rx_data, "");
+              READ_RxSTATUS_FLAG = ~READ_RxSTATUS_FLAG;
         }
         if(transmit_to_esp32_flag){
-            event_measurement[0].id_consumer = 8;
+            event_measurement[0].id_consumer = 9;
             event_measurement[0].id_event = 0;
             event_measurement[0].id_measurement = 0;
             strcat(event_measurement[0].timestamp_time_start, "20210309131313");
@@ -378,7 +371,6 @@ void main(){
             Fill_Tx_buffer(&event_measurement[0]);
             Transmit_to_esp32();
             transmit_to_esp32_flag--;
-            delay_ms(1000);
             strcpy(event_measurement[0].timestamp_time_start, "");
         }
     }
