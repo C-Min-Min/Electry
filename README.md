@@ -36,6 +36,7 @@ npm install ...
 #### Hardware
 * [MCP39F511](http://ww1.microchip.com/downloads/en/DeviceDoc/20005393B.pdf)
 * [STM32F407](https://www.st.com/en/microcontrollers-microprocessors/stm32f407-417.html)
+* [ESP32](https://www.espressif.com/en/products/socs/esp32)
 * [C-The-Lang](https://port70.net/~nsz/c/c11/n1570.html)
 
 ## Информация за авторите на проекта:
