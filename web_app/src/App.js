@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router';
 
 import {ThemeProvider} from "styled-components";
 import { GlobalStyles } from "./components/Themes/globalStyles";
@@ -57,6 +58,9 @@ const App = () => {
                 </Route>
                 <Route path="/settings">
                     <Settings theme={theme} themeToggler={themeToggler}/>
+                </Route>
+                <Route exact path="/">
+                    <Redirect to="/dashboard" />
                 </Route>
                 </Switch>
             </BrowserRouter>

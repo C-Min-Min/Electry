@@ -10,7 +10,7 @@ const Navigation = ({title}) => {
         <div className='navigation'>
             <div className='innerNav'>
                 <h1>{title}</h1>
-                <a href='/dashboard'>Home</a>
+                <a href='/dashboard'>Dashboard</a>
                 <a href='/details'>Details</a>
                 <a href='/history'>History</a>
                 <a href='/ambient-mode'>Ambient mode</a>
