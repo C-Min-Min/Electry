@@ -1,5 +1,9 @@
 package com.example.c__app;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -7,7 +11,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.UrlRewriter;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.load.engine.Resource;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     String URL_TABLES = "http://192.168.88.241/php_api/GET_TABLE.php";
 
     List<Measure> measureList;
-    List<History> historyList;
     LinearLayout linearLayout;
     RecyclerView recyclerView;
     Button b;
@@ -51,18 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
         linearLayout = findViewById(R.id.buttonlayout);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+
+
         measureList = new ArrayList<>();
-        historyList = new ArrayList<>();
 
         loadHistory();
-
-        /*Button button = (Button) findViewById(R.id.textViewTable_Name);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, button.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
     }
 
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_TABLES,
 
                 new Response.Listener<String>() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -77,9 +79,13 @@ public class MainActivity extends AppCompatActivity {
                             JSONArray array = new JSONArray(response);
 
                             for (int i = 0; i < array.length(); i++) {
+                                Typeface face = ResourcesCompat.getFont(MyApplication.getAppContext(), R.font.productsans_black);
                                 JSONObject history = array.getJSONObject(i);
                                 Button btn = new Button(MyApplication.getAppContext());
                                 btn.setText(history.getString("0"));
+                                btn.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#000000")));
+                                btn.setTypeface(face);
+                                btn.setTextColor(Color.parseColor("#fcfcfc"));
                                 LinearLayout linearLayout = (LinearLayout)findViewById(R.id.buttonlayout);
                                 LinearLayout.LayoutParams buttonlayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                                 linearLayout.addView(btn, buttonlayout);
@@ -87,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                 {
                                     public void onClick(View view)
                                     {
-                                        Toast.makeText(MainActivity.this, btn.getText().toString(), Toast.LENGTH_SHORT).show();
+                                        loadTable(btn.getText().toString());
                                     }
                                 });
                                 //historyList.add(new History(history.getString("0")));
@@ -114,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(stringRequest);
     }
 
-    private void loadTable() {
+    private void loadTable(String table) {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_MEASURES,
                     new Response.Listener<String>() {
                         @Override
@@ -154,13 +160,25 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("table", "measurements_5_0");
+                    params.put("table", table);
 
                     return params;
                 }
             };
             Volley.newRequestQueue(this).add(stringRequest);
-
+            setContentView(R.layout.activity_main);
+            recyclerView = findViewById(R.id.recylcerView);
+        Button go_back = (Button) findViewById(R.id.go_back);
+        go_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                measureList.clear();
+                setContentView(R.layout.history);
+                linearLayout = findViewById(R.id.buttonlayout);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                loadHistory();
+            }
+        });
     }
 
 }
