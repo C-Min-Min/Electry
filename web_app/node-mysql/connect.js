@@ -1,16 +1,29 @@
 let mysql = require('mysql');
+const { element } = require('prop-types');
+
 
 let connection = mysql.createConnection({
-    host: '145.14.144.199',
-    user: 'id15617968_avatarbg555',
-    password: '3s?BC&=FY0Ujj>Bn',
-    database: 'measurements_6_0'
+    host: '34.107.85.119',
+    user: 'root',
+    password: 'hacktues_c',
+    database: 'electry'
 });
 
 connection.connect(function(err) {
-    if (err) {
-      return console.error('error: ' + err.message);
-    }
-  
-    console.log('Connected to the MySQL server.');
-})
+    if (err) throw err;
+
+    connection.query("SHOW TABLES FROM `electry` LIKE '%measure%'", function (err, result, fields) {
+      if (err) throw err;
+      
+      for(var i of result){
+        for(var j of Object.values(i)){
+          connection.query("SELECT * FROM `" + j +"`", function (err, result, fields) {
+            if (err) throw err
+            console.log(result)
+          });
+          
+          
+        }
+      }
+    });
+});

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
 
+
 const state = {
   labels: ['00', '01', '02',
            '03', '04', '05', '06', '07',

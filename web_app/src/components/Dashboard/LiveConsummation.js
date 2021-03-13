@@ -5,7 +5,7 @@ const LiveConsummation = ({liveConsummation}) => {
     const value = 1440;
     return(
         <div className='liveConsummation  box cube'>
-            <CircularProgressbar value={value} maxValue={5000} text={`${value * 100}%`} />;
+            <p id='m_value' className='bigNumber'>6.47</p>
             <p id='consummationMesurement' className='unit'>kWh</p>
         </div>
     );
