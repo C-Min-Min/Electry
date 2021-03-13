@@ -12,10 +12,14 @@ const Dashboard = ({title}) => {
   title = "Dashboard"; 
   return(
     <div id='dashboard'>
-      <LiveConsummation />
-      <History />
-      <ConsumerDetails />
-      <LivePrice />
+      <div className='row' id='row-1'>
+        <LiveConsummation />
+        <History />
+      </div>
+      <div className='row' id='row-2'>
+        <ConsumerDetails />
+        <LivePrice />
+      </div>
     </div>
   );
 }
