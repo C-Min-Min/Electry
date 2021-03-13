@@ -1,0 +1,24 @@
+#ifndef ESP32_RX_TX
+#define ESP32_RX_TX
+
+
+#include "mcp39f511.h"
+#include "main.h"
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define usart USART2
+#define MAX_BUF_LEN 400
+
+////////////////////////////////////////////////////////////////////////////////
+
+extern uint8_t READ_RxSTATUS_FLAG;
+extern char rx_data[MAX_BUF_LEN];
+
+void Fill_Tx_buffer(event_measurement_struct_t *tx_struct);
+void Transmit_to_esp32();
+void Receive_from_esp32();
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // ESP32_RX_TX
