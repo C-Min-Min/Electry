@@ -84,7 +84,7 @@
             android:shadowDx="@dimen/material_emphasis_medium"
             android:shadowDy="@dimen/material_emphasis_medium"
             android:shadowRadius="@dimen/material_emphasis_medium"
-            android:text="<"
+            android:text=<s>&lt;</s>;
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/material_on_surface_emphasis_high_type"
             app:backgroundTint="@color/material_on_primary_disabled"
