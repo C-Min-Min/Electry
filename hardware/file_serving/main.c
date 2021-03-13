@@ -41,12 +41,12 @@
 #define EXAMPLE_AP_WIFI_SSID		"WRover"
 #define EXAMPLE_AP_WIFI_PASS		""
 #define EXAMPLE_MAX_STA_CONN		4
-//#define EXAMPLE_STA_WIFI_SSID		"Koko"
-#define EXAMPLE_STA_WIFI_SSID		"Bluebird"
+#define EXAMPLE_STA_WIFI_SSID		"Koko"
+//#define EXAMPLE_STA_WIFI_SSID		"Bluebird"
 //#define EXAMPLE_STA_WIFI_SSID		"Tech_D3881996"
-#define EXAMPLE_STA_WIFI_PASS		"vas1905vld"
+//#define EXAMPLE_STA_WIFI_PASS		"vas1905vld"
 //#define EXAMPLE_STA_WIFI_PASS		"FJHPEPJJ"
-//#define EXAMPLE_STA_WIFI_PASS		"KokoLia13"
+#define EXAMPLE_STA_WIFI_PASS		"KokoLia13"
 #define EXAMPLE_STA_MAXIMUM_RETRY	5
 
 #define MAX_EVENT_TAB 10
@@ -631,15 +631,9 @@ void app_main(void){
     ESP_ERROR_CHECK(init_spiffs());
 
     /* Start the file server */
-    ESP_ERROR_CHECK(start_file_server("/spiffs"));
-
-	make_file_data(NULL, 0);
-	ip_file();
-
-
-
-
-
+//    ESP_ERROR_CHECK(start_file_server("/spiffs"));
+//	make_file_data(NULL, 0);
+//	ip_file();
 
 
     const uart_config_t uart_config = {
