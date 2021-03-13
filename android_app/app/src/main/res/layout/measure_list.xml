@@ -22,7 +22,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="id: 1"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="4dp"
             android:fontFamily="@font/productsans_black"
             android:textColor="@color/black"/>
 
@@ -33,7 +33,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="4dp"
             android:fontFamily="@font/productsans_black"
             android:text="start_time: 86400"
             android:textColor="@color/black" />

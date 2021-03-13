@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         measureList.add(new Measure(
                                                 measure.getInt("id"),
-                                                measure.getDouble("start_time"),
+                                                measure.getString("start_time"),
                                                 measure.getDouble("power")
                                         ));
 
