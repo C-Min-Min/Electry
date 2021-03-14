@@ -60,13 +60,13 @@
         <Button
             android:id="@+id/go_back"
             style="@style/Widget.AppCompat.Button"
-            android:layout_width="70dp"
+            android:layout_width="120dp"
             android:layout_height="70dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="149dp"
-            android:layout_marginRight="149dp"
+            android:layout_marginEnd="126dp"
+            android:layout_marginRight="126dp"
             android:layout_marginBottom="1dp"
             android:height="180px"
             android:fontFamily="@font/productsans_black"
@@ -84,13 +84,12 @@
             android:shadowDx="@dimen/material_emphasis_medium"
             android:shadowDy="@dimen/material_emphasis_medium"
             android:shadowRadius="@dimen/material_emphasis_medium"
-            android:text=""
+            android:text="Back"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/material_on_surface_emphasis_high_type"
             app:backgroundTint="@color/material_on_primary_disabled"
             app:cornerRadius="15dp"
             app:elevation="0dp"
-            app:rippleColor="@color/material_on_background_disabled"
             app:shapeAppearance="?attr/materialButtonStyle" />
 
     </RelativeLayout>
