@@ -44,18 +44,18 @@ node connection.js
 #### От пре-компилирания файл (с използване на Android телефон):
 * Стъпка 1: Изтеглете (от последната версия) файлът 'electry.apk'
 * Стъпка 2: Отидете във Вашата 'Downloads' папка:
-<img src="/assets/images/android_app/step2.png" width="360">
+  <br /><img src="/assets/images/android_app/step2.png" width="360"> 
 * Стъпка 3: Отворете (натиснете) apk файлът:
-<img src="/assets/images/android_app/step3.png" width="360">
+  <br /><img src="/assets/images/android_app/step3.png" width="360">
 * За 3 и 4 стъпка може да не са Ви нужни, ако са направени преди
 * Стъпйа 4: Ще Ви излезе прозорец, който ще Ви каже, че на източникът се няма доверие да инсталира приложения, отворете настройките: 
-<img src="/assets/images/android_app/step4.png" width="360">
+  <br /><img src="/assets/images/android_app/step4.png" width="360">
 * Стъпка 5: Включете опцията 'Позволете от този източник:'
-<img src="/assets/images/android_app/step5.png" width="360">
+  <br /><img src="/assets/images/android_app/step5.png" width="360">
 * Стъпка 6: След всичко това, ще Ви излезе прозорец, в който ще може да инсталирате приложението: 
-<img src="/assets/images/android_app/step6.png" width="360">
+  <br /><img src="/assets/images/android_app/step6.png" width="360">
 * Стъпка 7: След като инсталирането свърши (успешно) ще можете или да го оставите, или да го отворите (препоръчително):
-<img src="/assets/images/android_app/step7.png" width="360">
+  <br /><img src="/assets/images/android_app/step7.png" width="360">
 * Стъпка 8: Наслаждавайте се! 
 ## Използвани технологии:
 
