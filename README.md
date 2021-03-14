@@ -4,24 +4,59 @@
 # Описание:
 Electry е смарт електромер, който ще Ви помогне да следите и да пестите Вашата консумация на електричество.  
 С красиво изградените Android и Web приложения, Вие ще можете да комуникирате с Вашия електромер, който има функцията да разпознава употребяваните от Вас консуматори чрез невронна мрежа.
-## Презентация (+ видео):
-### YouTube
-[![YouTube Electry](https://i.ytimg.com/vi/[INSERT_ID]/maxresdefault.jpg)](https://www.youtube.com/watch?v=[INSERT_ID])
+## Презентация:
+### Google Drive:
+Презентация + Видео
+Линк към Google Drive -> [Натиснете тук, за да отидете към папката](https://drive.google.com/drive/folders/1UAdsdcYnGQrwe6Rr6VAjdduheQH5-I9Q?usp=sharing)
+### PowerPoint:
+Линк към PowerPoint Online -> [Натиснете тук, за да видите презентацията](https://drive.google.com/drive/folders/1UAdsdcYnGQrwe6Rr6VAjdduheQH5-I9Q?usp=sharing)
 
 ## Как да си изтегля и използвам проекта?
 
-### Инструкции за сваляне:
-
+### Инструкции за изтегляне и инсталиране на web приложението:
+#### От сорс код:
 ```
 git clone https://github.com/C-Min-Min/Electry/
-cd Electry
-npm install ...
+cd Electry/web_app
+npm install
+npm start
 ```
-
-### Инструкции за стартиране на проекта:
-
-
-
+```
+node server.js
+```
+```
+cd node-mysql
+node connection.js
+```
+#### От пре-компилираните файлове:
+* Изтеглете папката 'web_app_build' от последната версия
+```
+cd code ./web_app_build
+node server.js
+```
+```
+cd node-mysql
+node connection.js
+```
+* Пуснете live сървъра си на MS/VS-Code
+### Инструкции за изтегляне и инсталиране на Android приложението:
+#### От сорс код:
+#### От пре-компилирания файл (с използване на Android телефон):
+* Стъпка 1: Изтеглете (от последната версия) файлът 'electry.apk'
+* Стъпка 2: Отидете във Вашата 'Downloads' папка:
+<img src="/assets/images/android_app/step2.png" width="360">
+* Стъпка 3: Отворете (натиснете) apk файлът:
+<img src="/assets/images/android_app/step3.png" width="360">
+* За 3 и 4 стъпка може да не са Ви нужни, ако са направени преди
+* Стъпйа 4: Ще Ви излезе прозорец, който ще Ви каже, че на източникът се няма доверие да инсталира приложения, отворете настройките: 
+<img src="/assets/images/android_app/step4.png" width="360">
+* Стъпка 5: Включете опцията 'Позволете от този източник:'
+<img src="/assets/images/android_app/step5.png" width="360">
+* Стъпка 6: След всичко това, ще Ви излезе прозорец, в който ще може да инсталирате приложението: 
+<img src="/assets/images/android_app/step6.png" width="360">
+* Стъпка 7: След като инсталирането свърши (успешно) ще можете или да го оставите, или да го отворите (препоръчително):
+<img src="/assets/images/android_app/step7.png" width="360">
+* Стъпка 8: Наслаждавайте се! 
 ## Използвани технологии:
 
 #### Web App
