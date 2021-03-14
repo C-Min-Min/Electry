@@ -2,7 +2,8 @@
 <img src="/assets/images/electry_logo.png" width="360">
 
 # Описание:
-Electry ...
+Electry е смарт електромер, който ще Ви помогне да следите и да пестите Вашата консумация на електричество.  
+С красиво изградените Android и Web приложения, Вие ще можете да комуникирате с Вашия електромер, който има функцията да разпознава употребяваните от Вас консуматори чрез невронна мрежа.
 ## Презентация (+ видео):
 ### YouTube
 [![YouTube Electry](https://i.ytimg.com/vi/[INSERT_ID]/maxresdefault.jpg)](https://www.youtube.com/watch?v=[INSERT_ID])
