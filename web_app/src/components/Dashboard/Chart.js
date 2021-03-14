@@ -19,13 +19,13 @@ const state = {
       borderColor: 'rgba(0,0,0,1)',
       borderWidth: 2,
       data: data.map((mapper, i) => {
-        return(mapper.power);
+        return(String(Number(mapper.power)/100));
       }),
     }
   ]
 }
 
-const History = () => {
+const Charts = () => {
     return (
       <div className='history box'>
         <Line
@@ -46,4 +46,4 @@ const History = () => {
     );
   }
 
-export default History;
+export default Charts;

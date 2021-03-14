@@ -1,7 +1,15 @@
-import React from 'react';
 
-export default function History() {
+import React from 'react';
+import Charts from '../Dashboard/Chart';
+
+
+const History = ({title}) => {
+  title = "History";
   return(
-    <h2>History</h2>
+    <div id='history'>
+      <Charts />
+    </div>
   );
 }
+
+export default History

@@ -3,7 +3,7 @@ import props from 'prop-types';
 import './css/Dashboard.css'
 
 import LiveConsummation from './LiveConsummation'
-import History from './History'
+import Charts from './Chart'
 import ConsumerDetails from './ConsumerDetails'
 import LivePrice from './LivePrice'
 
@@ -14,7 +14,7 @@ const Dashboard = ({title}) => {
     <div id='dashboard'>
       <div className='row' id='row-1'>
         <LiveConsummation />
-        <History />
+        <Charts />
       </div>
       <div className='row' id='row-2'>
         <ConsumerDetails />
