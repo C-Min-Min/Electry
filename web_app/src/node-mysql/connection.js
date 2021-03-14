@@ -1,5 +1,3 @@
-var express = require('express');
-var router = express.Router();
 const fs = require('fs');
 
 let mysql = require('mysql');
@@ -23,14 +21,18 @@ connection.connect(function(err) {
       
       for(var i of result){
         for(var j of Object.values(i)){
-          connection.query("SELECT * FROM `" + j +"` limit 24", function (err, result, fields) {
+          connection.query("SELECT `power` FROM `" + j +"`", function (err, result, fields) {
             if (err) throw err
             for(var z of result){
-                tables.push(z)
 
+                tables.push(z)
+                console.log(z)
             }
             let data = JSON.stringify(tables);
-            fs.appendFileSync('tables.json', data);
+            fs.writeFileSync('./tables.json', data, 'utf8', err => {
+              if (err) throw err;
+            console.log('File has been saved!');
+            });
           });
         }
       }

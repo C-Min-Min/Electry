@@ -1,5 +1,7 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
+import data from '../../node-mysql/tables.json'
+
 
 
 const state = {
@@ -16,7 +18,9 @@ const state = {
       lineTension: 0.35,
       borderColor: 'rgba(0,0,0,1)',
       borderWidth: 2,
-      data: [150, 105, 80, 94, 48, 35, 75, 205, 173, 199, 195, 300, 150, 50, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89],
+      data: data.map((mapper, i) => {
+        return(mapper.power);
+      }),
     }
   ]
 }
