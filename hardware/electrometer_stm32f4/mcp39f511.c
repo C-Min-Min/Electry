@@ -7,7 +7,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-//char UART1_RX_Data[35];
+uint64_t data_of_read64 = 0;
+uint8_t flag_of_read64 = 0;
+uint8_t flag2_of_read64 = 0;
 uint8_t UART1_RX_Data[35];
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +17,7 @@ uint8_t UART1_RX_Data[35];
 void USART1_IRQHandler (void){
     static uint8_t i = 0;
 	static uint8_t mode = 0;
+	static uint8_t number_of_bytes;
 	static uint32_t CURRENT_RMS;
 	static uint16_t VOLTAGE_RMS;
 	static uint32_t ACTIVE_POWER;
@@ -24,8 +27,7 @@ void USART1_IRQHandler (void){
 
 	static RTC_TimeTypeDef start_time;
 	static RTC_DateTypeDef start_date;
-
-	static uint8_t t = 0;	//TEST
+	static uint8_t the_same_CURRENT_RMS;
 
 	GPIO_SetBits(GPIOA, GPIO_Pin_8);	// TEST
     GPIO_ResetBits(GPIOA, GPIO_Pin_8);	// TEST
@@ -36,17 +38,31 @@ void USART1_IRQHandler (void){
 		uint8_t n = (uint8_t)USART_ReceiveData(USART1);
 		
 		if(i == 0){
+			CHECKSUM = 0;
 			if(n == HEADERBYTE1){
 				CHECKSUM += n;
 				i++;
 				mode = 1;
 			} else if(n == RESP_ACK){
+				if(flag2_of_read64){
+					flag2_of_read64 = 0;
+					CHECKSUM += n;
+					i++;
+					mode = 2;
+				}
 			} else if(n == RESP_NAK){
+				mode = 0;
 			} else if(n == RESP_CSFAIL){
+				mode = 0;
 			} else {
+				mode = 0;
 			}
 		} else if(i == 1){
 			if(n == HEADERBYTE2 || mode == 1){
+				CHECKSUM += n;
+				i++;
+			} else if(mode == 2){
+				number_of_bytes = n;
 				CHECKSUM += n;
 				i++;
 			} else {
@@ -57,6 +73,10 @@ void USART1_IRQHandler (void){
 			if(n == HEADERBYTE3 && mode == 1){
 				CHECKSUM += n;
 				i++;
+			} else if(mode == 2){
+				CHECKSUM += n;
+				data_of_read64 = ((uint64_t)n & 0x00000000000000FF);
+				i++;
 			} else {
 				i = 0;
 				mode = 0;
@@ -66,6 +86,10 @@ void USART1_IRQHandler (void){
 				CHECKSUM += n;
 				i++;
 				CURRENT_RMS = ((uint32_t)n & 0x000000FF);
+			} else if(mode == 2){
+				CHECKSUM += n;
+				data_of_read64 |= (((uint64_t)n << 8) & 0x000000000000FF00);
+				i++;
 			} else {
 			}
 		} else if(i == 4){
@@ -73,6 +97,10 @@ void USART1_IRQHandler (void){
 				CHECKSUM += n;
 				i++;
 				CURRENT_RMS |= (((uint32_t)n << 8) & 0x0000FF00);
+			} else if(mode == 2){
+				CHECKSUM += n;
+				data_of_read64 |= (((uint64_t)n << 16) & 0x0000000000FF0000);
+				i++;
 			} else {
 			}
 		} else if(i == 5){
@@ -80,6 +108,10 @@ void USART1_IRQHandler (void){
 				CHECKSUM += n;
 				i++;
 				CURRENT_RMS |= (((uint32_t)n << 16) & 0x00FF0000);
+			} else if(mode == 2){
+				CHECKSUM += n;
+				data_of_read64 |= (((uint64_t)n << 24) & 0x00000000FF000000);
+				i++;
 			} else {
 			}
 		} else if(i == 6){
@@ -87,6 +119,10 @@ void USART1_IRQHandler (void){
 				CHECKSUM += n;
 				i++;
 				CURRENT_RMS |= (((uint32_t)n << 24) & 0xFF000000);
+			} else if(mode == 2){
+				CHECKSUM += n;
+				data_of_read64 |= (((uint64_t)n << 32) & 0x000000FF00000000);
+				i++;
 			} else {
 			}
 		} else if(i == 7){
@@ -94,6 +130,10 @@ void USART1_IRQHandler (void){
 				CHECKSUM += n;
 				i++;
 				VOLTAGE_RMS = ((uint16_t)n & 0x00FF);
+			} else if(mode == 2){
+				CHECKSUM += n;
+				data_of_read64 |= (((uint64_t)n << 40) & 0x0000FF0000000000);
+				i++;
 			} else {
 			}
 		} else if(i == 8){
@@ -101,6 +141,10 @@ void USART1_IRQHandler (void){
 				CHECKSUM += n;
 				i++;
 				VOLTAGE_RMS |= (((uint16_t)n << 8) & 0xFF00);
+			} else if(mode == 2){
+				CHECKSUM += n;
+				data_of_read64 |= (((uint64_t)n << 48) & 0x00FF000000000000);
+				i++;
 			} else {
 			}
 		} else if(i == 9){
@@ -108,6 +152,10 @@ void USART1_IRQHandler (void){
 				CHECKSUM += n;
 				i++;
 				ACTIVE_POWER = ((uint32_t)n & 0x000000FF);
+			} else if(mode == 2){
+				CHECKSUM += n;
+				data_of_read64 |= (((uint64_t)n << 56) & 0xFF00000000000000);
+				i++;
 			} else {
 			}
 		} else if(i == 10){
@@ -115,6 +163,11 @@ void USART1_IRQHandler (void){
 				CHECKSUM += n;
 				i++;
 				ACTIVE_POWER |= (((uint32_t)n << 8) & 0x0000FF00);
+			} else if(mode == 2){
+				if(n == CHECKSUM){
+					flag_of_read64 = 1;
+				} else flag_of_read64 = 0;
+				i = 0;
 			} else {
 			}
 		} else if(i == 11){
@@ -177,22 +230,26 @@ void USART1_IRQHandler (void){
 			if(mode == 1){
 				i = 0;
 				if(n == CHECKSUM){
-					CHECKSUM = 0;
 					// OK
 
 					/********************************************************************************/
 					/* The code below is responsible for event recognition for electrical consumers */
 					/********************************************************************************/
+					if(event_control.write_registerd16_flag){
+						event_control.write_registerd16_flag = 0;
+						write_registerd16(MCP_COMP_PERIPH_ENERGY_CONTROL, 0x0001);	// Energy Control enable
+					}
+
 					if(CURRENT_RMS > CURRENT_RMS_OFFSET_VALUE){
-						
+						/* start an event */
 						if(!event_control.event_present){
 							event_control.event_present = 1;	// event_measurement started
 							first_empty_element_of_shot_measurement = 0;	// Initialize shot_measurement index
 							write_registerd16(MCP_COMP_PERIPH_ENERGY_CONTROL, 0x0001);	// Energy Control enable
 
-							RTC_GetTime(RTC_Format_BCD, &start_time);	// Set event_start time
+							RTC_GetTime(RTC_Format_BIN, &start_time);	// Set event_start time
 							event_control.start_time = start_time;
-							RTC_GetDate(RTC_Format_BCD, &start_date);	// Set event_start date
+							RTC_GetDate(RTC_Format_BIN, &start_date);	// Set event_start date
 							event_control.start_date = start_date;
 
 							shot_measurement[first_empty_element_of_shot_measurement].CURRENT_RMS = CURRENT_RMS;
@@ -202,7 +259,8 @@ void USART1_IRQHandler (void){
 							shot_measurement[first_empty_element_of_shot_measurement].LINE_FREQUENCY = LINE_FREQUENCY;
 							first_empty_element_of_shot_measurement++;
 						} else {
-							if(!event_control.has_a_shot){
+							/* event is started; first take a snapshot of the inclusion (50 point in 1 sec, N = 0) */
+							if(!event_control.has_a_shot && !event_control.id_consumer){
 								shot_measurement[first_empty_element_of_shot_measurement].CURRENT_RMS = CURRENT_RMS;
 								shot_measurement[first_empty_element_of_shot_measurement].VOLTAGE_RMS = VOLTAGE_RMS;
 								shot_measurement[first_empty_element_of_shot_measurement].ACTIVE_POWER = ACTIVE_POWER;
@@ -215,45 +273,138 @@ void USART1_IRQHandler (void){
 									event_control.CURRENT_RMS = CURRENT_RMS;
 									event_control.ACTIVE_POWER = ACTIVE_POWER;
 									event_control.REACTIVE_POWER = REACTIVE_POWER;
+									
+									event_measurement[first_empty_element_of_roll_buffer].power = ACTIVE_POWER;
+
+									/* Set	event_measurement[first_empty_element_of_roll_buffer].timestamp_time_start */
+									sprintf(event_measurement[first_empty_element_of_roll_buffer].timestamp_time_start, \
+												"20%02d%02d%02d%02d%02d%02d", \
+													start_date.RTC_Year, start_date.RTC_Month, start_date.RTC_Date, \
+														start_time.RTC_Hours, start_time.RTC_Minutes, start_time.RTC_Seconds);
 								}
+							/* event is started, the shooting is done; measurement arrives...*/
 							} else {
-//								if(the_same_CURRENT_RMS){
-//								}
+								/* Is the newly measured current within the limits of digitalization? */
+								uint32_t a = CURRENT_RMS;
+								uint32_t b = event_control.CURRENT_RMS;
+								float diff = (float)a / b;
+								diff *= 100;
+								diff -= 100;
+								if(diff < 0)  diff = -diff;
+								uint32_t procent = DIGITALIZATION_FACTOR;
+								if(diff < procent){
+									the_same_CURRENT_RMS = 1;
+								} else the_same_CURRENT_RMS = 0;
+
+								/* The newly measured current is within the limits of digitalization */
+								if(the_same_CURRENT_RMS){
+									/* load the structure to send to the ESP32 with the first measurement; ****/
+									/* in this structure the "power" field contains the power of the consumer */
+									if(!event_control.event_created){
+										if(event_control.id_consumer){
+											event_control.event_created = 1;
+											
+											event_measurement[first_empty_element_of_roll_buffer].id_consumer = event_control.id_consumer;
+											event_measurement[first_empty_element_of_roll_buffer].id_event = event_control.id_event;
+											event_measurement[first_empty_element_of_roll_buffer].id_measurement = event_control.id_measurement;
+											
+											if(++first_empty_element_of_roll_buffer == 100) first_empty_element_of_roll_buffer = 0;
+											if(first_empty_element_of_roll_buffer == first_element_for_transmit_of_roll_buffer){
+												if(first_empty_element_of_roll_buffer){
+													first_empty_element_of_roll_buffer--;
+												} else first_empty_element_of_roll_buffer = 99;
+												// ERR roll_buffer
+											}
+											first_empty_element_of_roll_buffer_old = first_empty_element_of_roll_buffer;
+										}
+									}
+								/* The newly measured current isn't within the limits of digitalization. */
+								/* Create a new measurement for the event. In this structure, the */
+								/*  "power" field contains the calculated power for the previous period */
+								} else {
+									if(event_control.event_created){
+										/* skipping two cycles to establish the current in steady state */
+										if(!event_control.guard_delay){
+											event_control.guard_delay = 3;
+										} else if(event_control.guard_delay > 1){
+											event_control.guard_delay--;
+										} else {
+											event_control.guard_delay = 0;
+
+											event_control.CURRENT_RMS = CURRENT_RMS;
+											event_control.ACTIVE_POWER = ACTIVE_POWER;
+											event_control.REACTIVE_POWER = REACTIVE_POWER;
+
+											RTC_GetTime(RTC_Format_BIN, &start_time);	// Set event_start time
+											event_control.start_time = start_time;
+											RTC_GetDate(RTC_Format_BIN, &start_date);	// Set event_start date
+											event_control.start_date = start_date;
+											event_control.id_measurement++;
+
+											event_measurement[first_empty_element_of_roll_buffer].id_consumer = event_control.id_consumer;
+											event_measurement[first_empty_element_of_roll_buffer].id_event = event_control.id_event;
+											event_measurement[first_empty_element_of_roll_buffer].id_measurement = event_control.id_measurement;
+											/* Set	event_measurement[first_empty_element_of_roll_buffer].timestamp_time_start */
+											sprintf(event_measurement[first_empty_element_of_roll_buffer].timestamp_time_start, \
+													"20%02d%02d%02d%02d%02d%02d", \
+														start_date.RTC_Year, start_date.RTC_Month, start_date.RTC_Date, \
+															start_time.RTC_Hours, start_time.RTC_Minutes, start_time.RTC_Seconds);
+
+											write_registerd16(MCP_COMP_PERIPH_ENERGY_CONTROL, 0x0000);	// Energy Control disible
+											event_control.write_registerd16_flag = 1;	// To send "Energy Control enable"
+
+											if(++first_empty_element_of_roll_buffer == 100) first_empty_element_of_roll_buffer = 0;
+											if(first_empty_element_of_roll_buffer == first_element_for_transmit_of_roll_buffer){
+												if(first_empty_element_of_roll_buffer){
+													first_empty_element_of_roll_buffer--;
+												} else first_empty_element_of_roll_buffer = 99;
+												// ERR roll_buffer
+											}
+										}
+									} else {
+										// Code for pulsating CURRENT_RMS
+									}
+								}
 							}
 						}
-
-/*						MCP_measurement[first_empty_element_of_roll_buffer].CURRENT_RMS = CURRENT_RMS;
-						MCP_measurement[first_empty_element_of_roll_buffer].VOLTAGE_RMS = VOLTAGE_RMS;
-						MCP_measurement[first_empty_element_of_roll_buffer].ACTIVE_POWER = ACTIVE_POWER;
-						MCP_measurement[first_empty_element_of_roll_buffer].REACTIVE_POWER = REACTIVE_POWER;
-						MCP_measurement[first_empty_element_of_roll_buffer].LINE_FREQUENCY = LINE_FREQUENCY;*/
-
-						MCP_measurement.CURRENT_RMS = CURRENT_RMS;
-						MCP_measurement.VOLTAGE_RMS = VOLTAGE_RMS;
-						MCP_measurement.ACTIVE_POWER = ACTIVE_POWER;
-						MCP_measurement.REACTIVE_POWER = REACTIVE_POWER;
-						MCP_measurement.LINE_FREQUENCY = LINE_FREQUENCY;
-
-						if(++first_empty_element_of_roll_buffer == 20) first_empty_element_of_roll_buffer = 0;
-
-						if(first_empty_element_of_roll_buffer == first_element_for_transmit_of_roll_buffer){
-							if(first_empty_element_of_roll_buffer){
-								first_empty_element_of_roll_buffer--;
-							} else first_empty_element_of_roll_buffer = 19;
-							// ERR roll_buffer
-/*							while((first_empty_element_of_roll_buffer != first_element_for_transmit_of_roll_buffer) && (t == 0)){
-								printf("I,V,Pa,Pr: %0d,%0d,%0d,%d\n", \
-									MCP_measurement[first_element_for_transmit_of_roll_buffer].CURRENT_RMS, \
-									MCP_measurement[first_element_for_transmit_of_roll_buffer].VOLTAGE_RMS, \
-									MCP_measurement[first_element_for_transmit_of_roll_buffer].ACTIVE_POWER, \
-									MCP_measurement[first_element_for_transmit_of_roll_buffer].REACTIVE_POWER);
-								first_element_for_transmit_of_roll_buffer++;
-							}
-							t = 1;*/
-						}
+					/* The CURRENT_RMS is below the CURRENT_RMS_OFFSET_VALUE (no CURRENT_RMS) */
 					} else {
+						/* create a final structure with this id_event; reset event_control */
+						/* "power" field contains the calculated power for the last period	*/
 						if(event_control.event_present){
+							RTC_GetTime(RTC_Format_BIN, &start_time);	// Set event_start time
+							event_control.start_time = start_time;
+							RTC_GetDate(RTC_Format_BIN, &start_date);	// Set event_start date
+							event_control.start_date = start_date;
+							event_control.id_measurement++;
+
+							event_measurement[first_empty_element_of_roll_buffer].id_consumer = event_control.id_consumer;
+							event_measurement[first_empty_element_of_roll_buffer].id_event = event_control.id_event;
+							event_measurement[first_empty_element_of_roll_buffer].id_measurement = event_control.id_measurement;
+							/* Set	event_measurement[first_empty_element_of_roll_buffer].timestamp_time_start */
+							sprintf(event_measurement[first_empty_element_of_roll_buffer].timestamp_time_start, \
+										"20%02d%02d%02d%02d%02d%02d", \
+											start_date.RTC_Year, start_date.RTC_Month, start_date.RTC_Date, \
+												start_time.RTC_Hours, start_time.RTC_Minutes, start_time.RTC_Seconds);
+
+							write_registerd16(MCP_COMP_PERIPH_ENERGY_CONTROL, 0x0000);	// Energy Control disible
+
+							if(++first_empty_element_of_roll_buffer == 100) first_empty_element_of_roll_buffer = 0;
+							if(first_empty_element_of_roll_buffer == first_element_for_transmit_of_roll_buffer){
+								if(first_empty_element_of_roll_buffer){
+									first_empty_element_of_roll_buffer--;
+								} else first_empty_element_of_roll_buffer = 99;
+								// ERR roll_buffer
+							}
+
+							event_control.event_present = 0;
+							event_control.has_a_shot = 0;
+							event_control.id_consumer = 0;
+							event_control.event_created = 0;
+							event_control.guard_delay = 0;
+							event_control.write_registerd16_flag = 0;
 						} else {
+							// Nothing ?
 						}
 					}
 					/********************************************************************************/
@@ -296,6 +447,39 @@ void read_registerds(uint16_t address, uint8_t Number_of_Bytes_to_Read){
     while (!(USART1->SR & USART_SR_TC));
     USART_SendData(USART1, CHECKSUM);
     while (!(USART1->SR & USART_SR_TC));
+}
+
+/* cannot be called from an interrupt */
+uint32_t read_registerds64(uint16_t address){
+	uint32_t data;
+  	uint8_t CHECKSUM = FRAME_HEADER + 0x08 + MCP_CMD_SET_ADDRESS_POINTER + \
+		address + MCP_CMD_REGISTER_READ + 0x08;
+
+	while (!(USART1->SR & USART_SR_TC));
+    USART_SendData(USART1, FRAME_HEADER);
+    while (!(USART1->SR & USART_SR_TC));
+    USART_SendData(USART1, 0x08);
+    while (!(USART1->SR & USART_SR_TC));
+    USART_SendData(USART1, MCP_CMD_SET_ADDRESS_POINTER);
+    while (!(USART1->SR & USART_SR_TC));
+    USART_SendData(USART1, 0x00);
+    while (!(USART1->SR & USART_SR_TC));
+    USART_SendData(USART1, (uint8_t)address);
+    while (!(USART1->SR & USART_SR_TC));
+    USART_SendData(USART1, MCP_CMD_REGISTER_READ);
+    while (!(USART1->SR & USART_SR_TC));
+    USART_SendData(USART1, 0x08);
+    while (!(USART1->SR & USART_SR_TC));
+    USART_SendData(USART1, CHECKSUM);
+    while (!(USART1->SR & USART_SR_TC));
+
+	flag2_of_read64 = 1;
+
+	while(!flag_of_read64){}
+	flag_of_read64 = 0;
+	data = (uint32_t)data_of_read64;
+
+	return data;
 }
 
 void write_registerd16(uint16_t address, int16_t data){
@@ -476,7 +660,7 @@ void Init_Mcp39f511(){
 	}
 
 	/* Only if we want to read some registers of MCP39F511 */
-#if(1)
+#if(0)
 	read_registerds(MCP_CONFIG_1_RANGE, 4);
 	while(!wait_ms_ch(channelTime2, 10));
 	read_registerds(MCP_OUTPUT_REG_CURRENT_RMS, 4);		// CURRENT_RMS value

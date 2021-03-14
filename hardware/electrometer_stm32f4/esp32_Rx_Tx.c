@@ -62,7 +62,7 @@ void USART2_IRQHandler(){
 }
 
 void Fill_Tx_buffer(event_measurement_struct_t *tx_struct){
-    char *num;
+    char num[20]="";
     int offset = 0;
     
     sprintf(tx_data, "~;0;%d;%d;%d;", (int)tx_struct->id_consumer, (int)tx_struct->id_event, (int)tx_struct->id_measurement);    
@@ -84,7 +84,7 @@ void Fill_Tx_buffer(event_measurement_struct_t *tx_struct){
     sprintf(num, ";%d;%d;%d", tx_struct->power, 0x66, 0x90);
     strcat(tx_data, num);
     strcpy(num, "");
-    //printf("\n\nTHE FORMATED BUFFER: %s\n\n", tx_data);
+    printf("\n\nTHE FORMATED BUFFER: %s\n\n", tx_data);
 }
 
 void Transmit_to_esp32(){

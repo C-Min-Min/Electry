@@ -24,13 +24,10 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
-
 #include "lwip/netdb.h"
 #include "lwip/dns.h"
 #include "lwip/sockets.h"
 #include "esp_http_client.h"
-
-
 
 #include "esp_spiffs.h"
 #include "esp_netif.h"
@@ -41,12 +38,12 @@
 #define EXAMPLE_AP_WIFI_SSID		"WRover"
 #define EXAMPLE_AP_WIFI_PASS		""
 #define EXAMPLE_MAX_STA_CONN		4
-#define EXAMPLE_STA_WIFI_SSID		"Koko"
+//#define EXAMPLE_STA_WIFI_SSID		"Koko"
 //#define EXAMPLE_STA_WIFI_SSID		"Bluebird"
-//#define EXAMPLE_STA_WIFI_SSID		"Tech_D3881996"
+#define EXAMPLE_STA_WIFI_SSID		"Tech_D3881996"
 //#define EXAMPLE_STA_WIFI_PASS		"vas1905vld"
-//#define EXAMPLE_STA_WIFI_PASS		"FJHPEPJJ"
-#define EXAMPLE_STA_WIFI_PASS		"KokoLia13"
+#define EXAMPLE_STA_WIFI_PASS		"FJHPEPJJ"
+//#define EXAMPLE_STA_WIFI_PASS		"KokoLia13"
 #define EXAMPLE_STA_MAXIMUM_RETRY	5
 
 #define MAX_EVENT_TAB 10
@@ -64,16 +61,15 @@ static EventGroupHandle_t s_wifi_event_group;
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
 
-
 /* This example demonstrates how to create file server
  * using esp_http_server. This file has only startup code.
  * Look in file_server.c for the implementation */
 
 static const char *TAG="example";
-static const int RX_BUF_SIZE = 255;
+static const int RX_BUF_SIZE = 300;
 uint8_t index_write_measurement_struct = 0, index_write_event_struct = 0, index_send_measurement_struct = 0, index_send_event_struct = 0, flag_send_measurement = 0, flag_send_event = 0;
-//#define URL "http://learningmoorree.000webhostapp.com/post-esp-data.php"
-#define URL "https://iconic-reactor-307007.ey.r.appspot.com/post-esp-data.php"
+#define URL "http://learningmoorree.000webhostapp.com/post-esp-data.php"
+//#define URL "https://iconic-reactor-307007.ey.r.appspot.com/post-esp-data.php"
 
 typedef struct event_table_struct{
 	char consumer_id[5];
@@ -96,7 +92,6 @@ void prepare_buf_for_event_table(event_table *table, char *bufffer);
 void prepare_buf_for_measurement_table(measurement_table *table, char *bufffer);
 void send_request_to_mysql(char *buf);
 //char check_uart_request_table_type(char *tx_buff);
-
 
 static int s_retry_num = 0;
 programData_t programs[21];
@@ -543,25 +538,26 @@ static void rx_task(void *arg)
             ESP_LOGI(RX_TASK_TAG, "Read %d bytes: '%s' send flag'%d' write flag'%d'", rxBytes, data, index_send_measurement_struct, index_write_measurement_struct);
 			
 			/**//**/
-			char uart_request_elements[20], header_info[9][20];
-			for(int i=0;i<9;i++)  strcpy(header_info[i], "");
+			char uart_request_elements[20], header_info[8][20];
+			for(int i=0;i<8;i++)  strcpy(header_info[i], "");
 	
 			strcpy(uart_request_elements, strtok(data_p, ";"));
 			strcpy(header_info[0], uart_request_elements);
-			for(int i = 1; i < 9; i++){
+			for(int i = 1; i < 8; i++){
 				ESP_LOGI(TAG, "Data content:  %s", header_info[i-1]);
 				strcpy(uart_request_elements, strtok(NULL, ";"));
 				strcpy(header_info[i], uart_request_elements);				
 			}
 			
 			if(!strcmp(header_info[1], "0")){
-				if(!(strcmp(header_info[4], "0"))){
+				if((strcmp(header_info[4], "0"))){
 					if((index_write_measurement_struct != index_send_measurement_struct) || index_write_measurement_struct == 0){
 						strcat(measurement_struct[index_write_measurement_struct].consumer_id, header_info[2]);
 						strcat(measurement_struct[index_write_measurement_struct].event_id, header_info[3]);
 						strcat(measurement_struct[index_write_measurement_struct].start_time, header_info[5]);
 						strcat(measurement_struct[index_write_measurement_struct].power, header_info[6]);
 						
+						ESP_LOGI(TAG, "\n%s%s%s%s", measurement_struct[index_write_measurement_struct].consumer_id, measurement_struct[index_write_measurement_struct].event_id, measurement_struct[index_write_measurement_struct].start_time, measurement_struct[index_write_measurement_struct].power);
 						index_write_measurement_struct++;
 						if(index_write_measurement_struct == 50)  index_write_measurement_struct = 0;
 						if(index_write_measurement_struct == index_send_measurement_struct){
@@ -571,7 +567,7 @@ static void rx_task(void *arg)
 						flag_send_measurement++;
 						sendData(TAG, "DATA LOADED!~");
 					}else  ESP_LOGI(TAG, "MEASUREMENTS ERROR CONNECTION!~%d  %d", index_write_measurement_struct, index_send_measurement_struct);
-				}else if(!(strcmp(header_info[4], "1"))){
+				}else if(!(strcmp(header_info[4], "0"))){
 					if((index_write_event_struct != index_send_event_struct) || !index_write_event_struct){
 						strcat(event_struct[index_write_event_struct].consumer_id, header_info[2]);
 						strcat(event_struct[index_write_event_struct].event_id, header_info[3]);
@@ -583,18 +579,36 @@ static void rx_task(void *arg)
 							if(!index_write_event_struct)  index_write_event_struct = 49;
 							else  index_write_event_struct--;
 						}
-						flag_send_event++;
+						flag_send_event = 1;
 						sendData(TAG, "DATA LOADED!~");
+						ESP_LOGI(TAG, "\n%s%s%s%s", event_struct[index_write_measurement_struct].consumer_id, event_struct[index_write_measurement_struct].event_id, event_struct[index_write_measurement_struct].start_time, event_struct[index_write_measurement_struct].power);
+						
+						strcat(measurement_struct[index_write_measurement_struct].consumer_id, header_info[2]);
+						strcat(measurement_struct[index_write_measurement_struct].event_id, header_info[3]);
+						strcat(measurement_struct[index_write_measurement_struct].start_time, header_info[5]);
+						strcat(measurement_struct[index_write_measurement_struct].power, header_info[6]);
+
+						ESP_LOGI(TAG, "\n%s%s%s%s", measurement_struct[index_write_measurement_struct].consumer_id, measurement_struct[index_write_measurement_struct].event_id, measurement_struct[index_write_measurement_struct].start_time, measurement_struct[index_write_measurement_struct].power);
+						index_write_measurement_struct++;
+						if(index_write_measurement_struct == 50)  index_write_measurement_struct = 0;
+						if(index_write_measurement_struct == index_send_measurement_struct){
+							if(!index_write_measurement_struct)  index_write_measurement_struct = 49;
+							else  index_write_measurement_struct--;
+						}
+						
+						flag_send_measurement = 1;
+						
 					}else  sendData(TAG, "EVENT ERROR NOT ENOUGH SPACE!~");
 				}else  sendData(TAG, header_info[4]);
 			}else if(!(strcmp(header_info[1], "1"))){
 				char transmit_indexes[15];
 				sprintf(transmit_indexes, "%d%d%d%d!~", index_write_measurement_struct, index_write_event_struct, index_send_measurement_struct, index_send_event_struct);
 				sendData(TAG, (char*)transmit_indexes);
-			}else  sendData(TAG, "WHY WHY WHY ERROR CONNECTION!~");
+			}else  sendData(TAG, "ERROR CONNECTION!~");
 			rxBytes = 0;
 			/**//**/
 			strcpy(data, "");
+			for(int i = 0; i < RX_BUF_SIZE; i++)  data[i] = 0;
 			for(int i = 0; i < 8; i++)  strcpy(header_info[i], "");
 			//ESP_LOG_BUFFER_HEXDUMP(RX_TASK_TAG, data, rxBytes, ESP_LOG_INFO);
 		}
@@ -667,6 +681,7 @@ void app_main(void){
 	///Send requests///
   while(1){
 	char buf[200];
+	
 	if(index_send_event_struct != index_write_event_struct && flag_send_event){
 		prepare_buf_for_event_table(&event_struct[index_send_event_struct], (char*)&buf);		
 		send_request_to_mysql((char*)&buf);
@@ -678,7 +693,7 @@ void app_main(void){
         if(index_send_event_struct+1 == index_write_event_struct);
 		else if(index_send_event_struct+1 == 9)  index_send_event_struct = 0;
 		else  ++index_send_event_struct;
-		flag_send_event--;
+		flag_send_event = 0;
 	}
 
 	if(index_send_measurement_struct != index_write_measurement_struct && !flag_send_event && flag_send_measurement){
@@ -692,8 +707,8 @@ void app_main(void){
         if(index_send_measurement_struct+1 == index_write_measurement_struct);
 		else if(index_send_measurement_struct+1 == 49)  index_send_measurement_struct = 0;
 		else  ++index_send_measurement_struct;
-		flag_send_measurement--;
+		flag_send_measurement = 0;
 	}
-	strcpy(buf, "");
+	for(int i = 0; i < 200; i++)  buf[i] = 0;
   }
 }

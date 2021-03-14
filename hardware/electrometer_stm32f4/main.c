@@ -1,5 +1,6 @@
 #include "esp32_Rx_Tx.h"
 #include "mcp39f511.h"
+#include "electrical_consumers.h"
 #include "delay.h"
 #include "main.h"
 
@@ -23,10 +24,11 @@ void ConfigureTIM10();
 
 event_measurement_struct_t event_measurement[100];	// Roll buffer for send to ESP32
 MCP_measurement_struct_t shot_measurement[100];	// 100 measurements (N = 0) for started event
-MCP_measurement_struct_t MCP_measurement;	// For measurements
+//MCP_measurement_struct_t MCP_measurement;	// For measurements
 event_control_struct_t event_control;
 
 uint8_t first_empty_element_of_roll_buffer = 0;	// For event_measurement
+uint8_t first_empty_element_of_roll_buffer_old = 0;
 uint8_t first_element_for_transmit_of_roll_buffer = 0;	// To ESP32 (STM32 - USART2)
 uint8_t first_empty_element_of_shot_measurement = 0;	// For shot_measurement
 
@@ -335,45 +337,92 @@ void TIM1_UP_TIM10_IRQHandler(){
 }
 #endif
 
+uint16_t read_from_RtcBKR(uint8_t id_consumer){
+	if(RTC_ReadBackupRegister(RTC_BKP_DR0) == 0xA5A5A5A5){
+		if(id_consumer == CONSUMER_LAMP){
+			return (uint16_t)RTC_ReadBackupRegister(RTC_BKP_DR1);
+		}
+		if(id_consumer == CONSUMER_IRON){
+			return (uint16_t)RTC_ReadBackupRegister(RTC_BKP_DR2);
+		}
+	} else return 0;
+}
+
+void backup_to_RtcBKR(uint8_t id_consumer, uint16_t id_event){
+	RTC_WriteBackupRegister(RTC_BKP_DR0, 0xA5A5A5A5);
+	if(id_consumer == CONSUMER_LAMP){
+		RTC_WriteBackupRegister(RTC_BKP_DR1, (uint32_t)id_event);
+	}
+	if(id_consumer == CONSUMER_IRON){
+		RTC_WriteBackupRegister(RTC_BKP_DR2, (uint32_t)id_event);
+	}
+}
+
 
 
 void main(){
     MCU_Init();
 	
-    //RTC_TimeTypeDef time1;
-    RTC_TimeTypeDef time;
-    RTC_DateTypeDef date;
+	uint16_t backup_lamp = 0;	// TEST
+	uint16_t backup_iron = 0;	// TEST
+		
+	event_control.event_present = 0;
+	event_control.has_a_shot = 0;
+	event_control.id_consumer = 0;
+	event_control.event_created = 0;
+	event_control.guard_delay = 0;
 
-    event_control.event_present = 0;
-    event_control.has_a_shot = 0;
-    event_control.id_consumer = 0;
-    event_control.event_created = 0;
+	uint8_t transmit_to_esp32_flag = 0;	// TEST
 
-    uint8_t transmit_to_esp32_flag = 10;	// TEST
-
-/*	while(!wait_ms_ch(channelTime1, 1000));
-	RTC_GetTime(RTC_Format_BIN, &time1);
-	//printf("Time is: %d:%d:%d\n", time1.RTC_Hours, time1.RTC_Minutes, time1.RTC_Seconds);
-	while(!wait_ms_ch(channelTime1, 1000));*/
+#if(0)
+	backup_to_RtcBKR(CONSUMER_LAMP, 0x0005);
+	backup_to_RtcBKR(CONSUMER_IRON, 0x0005);
+#endif
 
     while(1){
-        if(READ_RxSTATUS_FLAG){
-              printf("\nDATA: %s\n", rx_data);
-              strcpy(rx_data, "");
-              READ_RxSTATUS_FLAG = ~READ_RxSTATUS_FLAG;
-        }
-        if(transmit_to_esp32_flag){
-            event_measurement[0].id_consumer = 9;
-            event_measurement[0].id_event = 0;
-            event_measurement[0].id_measurement = 0;
-            strcat(event_measurement[0].timestamp_time_start, "20210309131315");
-            event_measurement[0].power = 9000;
 
-            Fill_Tx_buffer(&event_measurement[0]);
-            Transmit_to_esp32();
-            transmit_to_esp32_flag--;
-            delay_ms(1000);
-            strcpy(event_measurement[0].timestamp_time_start, "");
+		if(event_control.has_a_shot){
+			set_id_consumer();
+			//event_control.id_event = (read_from_RtcBKR(event_control.id_consumer) + 1);
+			if(event_control.id_consumer == CONSUMER_LAMP) event_control.id_event = backup_lamp +1;
+			if(event_control.id_consumer == CONSUMER_IRON) event_control.id_event = backup_iron +1;
+			event_control.id_measurement = 0;
+			//backup_to_RtcBKR(event_control.id_consumer, event_control.id_event);
+			if(event_control.id_consumer == CONSUMER_LAMP) backup_lamp = event_control.id_event;
+			if(event_control.id_consumer == CONSUMER_IRON) backup_iron = event_control.id_event;
+				
+			//printf("\n%d\n", event_control.id_event);	// TEST
+
+			event_control.has_a_shot = 0;
+		}
+
+		if(READ_RxSTATUS_FLAG){
+ 			printf("\nDATA: %s\n", rx_data);
+			strcpy(rx_data, "");
+			READ_RxSTATUS_FLAG = ~READ_RxSTATUS_FLAG;
+        }
+		
+		if(first_empty_element_of_roll_buffer != first_empty_element_of_roll_buffer_old){
+			(void) wait_ms_ch(channelTime2, 1);	// Specific for while() only
+			while(!wait_ms_ch(channelTime2, 6));
+			event_measurement[first_empty_element_of_roll_buffer_old].power = read_registerds64(MCP_RECORD_IMP_ACTIVE_ENERGY_COUNTER);
+			first_empty_element_of_roll_buffer_old = first_empty_element_of_roll_buffer;
+			//printf("\n%s %02d %d\n", event_measurement[first_empty_element_of_roll_buffer - 1].timestamp_time_start, \
+				event_measurement[first_empty_element_of_roll_buffer - 1].power, \
+					event_measurement[first_empty_element_of_roll_buffer - 1].id_event);	// TEST
+			 transmit_to_esp32_flag = 1;
+		} else {
+			if(first_empty_element_of_roll_buffer != first_element_for_transmit_of_roll_buffer) transmit_to_esp32_flag = 1;
+		}
+		
+        if(transmit_to_esp32_flag){
+            Fill_Tx_buffer(&event_measurement[first_element_for_transmit_of_roll_buffer]);
+			Transmit_to_esp32();
+
+			transmit_to_esp32_flag = 0;
+			first_element_for_transmit_of_roll_buffer++;
+			//delay_ms(1000);
         }
     }
 }
+

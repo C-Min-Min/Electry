@@ -5,7 +5,7 @@
 
 
 #define SHOT_MAX_NUMBER 50
-#define DIGITALIZATION FACTOR 1					// in percents
+#define DIGITALIZATION_FACTOR 10					// in percents
 #define CURRENT_RMS_OFFSET_VALUE 0x0000006F
 
 #define CALIB_CURRENT_VALUE 0x0000037E			// 89,4 mA
@@ -293,6 +293,7 @@ typedef enum {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+uint32_t read_registerds64(uint16_t address);
 void write_registerd16(uint16_t address, int16_t data);
 void Init_Mcp39f511();
 
