@@ -6,10 +6,10 @@ Electry е смарт електромер, който ще Ви помогне 
 С красиво изградените Android и Web приложения, Вие ще можете да комуникирате с Вашия електромер, който има функцията да разпознава употребяваните от Вас консуматори чрез невронна мрежа.
 ## Презентация:
 ### Google Drive:
-Презентация + Видео
+Презентация + Демо + Блокови и принципни схеми
 Линк към Google Drive -> [Натиснете тук, за да отидете към папката](https://drive.google.com/drive/folders/1UAdsdcYnGQrwe6Rr6VAjdduheQH5-I9Q?usp=sharing)
 ### PowerPoint:
-Линк към PowerPoint Online -> [Натиснете тук, за да видите презентацията](https://drive.google.com/drive/folders/1UAdsdcYnGQrwe6Rr6VAjdduheQH5-I9Q?usp=sharing)
+Линк към PowerPoint Online -> [Натиснете тук, за да видите презентацията](https://1drv.ms/p/s!AtfmygJLdrWPmccKypNUufgPEh-X9w?e=lQOPOr)
 
 ## Как да си изтегля и използвам проекта?
 
